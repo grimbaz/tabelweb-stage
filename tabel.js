@@ -19,7 +19,7 @@ home.addEventListener("click", function() {
 
     window.location.href = url;
 });
-// the end of making the 2 buttons home and create that gives back a window
+// the end!!!!!!! of making the 2 buttons home and create that gives back a window
 
 //the save button save the data in the list
 const userTableBody = document.querySelector("#userTableBody");
@@ -45,6 +45,15 @@ document.querySelector(".saveBtn").addEventListener("click", function(event) {
   modal.style.display = "none";
 });
 //the end!!!! of the save button save the data in the list
+
+//the cross to close the creat window
+const closeBtn = document.querySelector('.close');
+const modal = document.getElementById('myModal');
+
+closeBtn.addEventListener('click', () => {
+  modal.style.display = 'none';
+});
+//the end!!!!!! of the cross to close the creat window
 
 //these are the delete buttons
 // Get the table body element
