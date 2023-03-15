@@ -19,6 +19,7 @@ home.addEventListener("click", function() {
 
     window.location.href = url;
 });
+// the end of making the 2 buttons home and create that gives back a window
 
 //the save button save the data in the list
 const userTableBody = document.querySelector("#userTableBody");
@@ -43,7 +44,9 @@ document.querySelector(".saveBtn").addEventListener("click", function(event) {
   const modal = document.querySelector("#myModal");
   modal.style.display = "none";
 });
+//the end!!!! of the save button save the data in the list
 
+//these are the delete buttons
 // Get the table body element
 const tableBody = document.getElementById("userTableBody");
 
@@ -58,3 +61,4 @@ tableBody.addEventListener("click", function(event) {
     row.remove();
   }
 });
+// end!!!!! of delete buttons
