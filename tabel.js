@@ -48,10 +48,10 @@ document.querySelector(".saveBtn").addEventListener("click", function(event) {
 
 //these are the delete buttons
 // Get the table body element
-const tableBody = document.getElementById("userTableBody");
+const tabledel = document.getElementById("userTableBody");
 
 // Add a click event listener to the table body
-tableBody.addEventListener("click", function(event) {
+tabledel.addEventListener("click", function(event) {
   // Check if the clicked element is a delete button
   if (event.target.classList.contains("deleteBtn")) {
     // Get the parent row of the clicked button
@@ -65,10 +65,10 @@ tableBody.addEventListener("click", function(event) {
 
 //the edit buttons
 // Get the table body element
-const tableBody = document.getElementById('userTableBody');
+const tableedit = document.getElementById('userTableBody');
 
 // Add an event listener to each edit button
-tableBody.addEventListener('click', function(event) {
+tableedit.addEventListener('click', function(event) {
   // Get the target element of the click event
   const target = event.target;
 
