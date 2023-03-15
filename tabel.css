@@ -32,11 +32,6 @@
     margin: 0 10px;
   }
   
-  nav .logo {
-    font-size: 24px;
-    font-weight: bold;
-    letter-spacing: 2px;
-  }
   
   nav .nav-links {
     display: flex;
@@ -127,6 +122,19 @@
     margin-bottom: 10px;
     border-radius: 5px;
     border: 1px solid #ccc;
+  }
+  
+  .saveBtn{
+    padding: 10px 20px;
+    background-color: #333;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  .saveBtn:hover {
+    background-color: #888;
   }
   
   .createBtn {
