@@ -1,39 +1,61 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<title>Gebruikersbeheer</title>
-		<link rel="stylesheet" type="text/css" href="tabel.css">
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-	</head>
-	<body>
-		<nav>
-			<a href="#">Lijst</a>
-			<a href="#">Rollen</a>
-			<a href="#">Creëer</a>
-		</nav>
-		<div id="user-table">
-			<table>
-				<thead>
-					<tr>
-						<th>Naam</th>
-						<th>Rollen</th>
-						<th></th>
-					</tr>
-				</thead>
-				<tbody>
-				</tbody>
-			</table>
-		</div>
-		<div id="add-user-form">
-			<h2>Gebruiker toevoegen</h2>
-			<form>
-				<label for="naam">Naam:</label>
-				<input type="text" id="naam" name="naam" required>
-				<label for="rollen">Rollen:</label>
-				<input type="text" id="rollen" name="rollen">
-				<button type="submit">Toevoegen</button>
-			</form>
-		</div>
-		<script src="tabel.js"></script>
-	</body>
+  <head>
+    <meta charset="UTF-8">
+    <title>User Roles</title>
+    <link rel="stylesheet" href="tabel.css">
+  </head>
+  <body>
+    <nav>
+      <button id="listBtn">Lijst</button>
+      <button id="rolesBtn">Rollen</button>
+      <button id="createBtn">Creëer</button>
+    </nav>
+    <table>
+      <thead>
+        <tr>
+          <th>Naam</th>
+          <th>Rollen</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>John Doe</td>
+          <td>
+            <select>
+              <option value="admin">Admin</option>
+              <option value="editor">Editor</option>
+              <option value="viewer">Viewer</option>
+            </select>
+            <button class="addBtn">Toevoegen</button>
+          </td>
+          <td><button class="deleteBtn"><img src="trashcan.png" alt="Verwijderen"></button></td>
+        </tr>
+        <tr>
+          <td>Jane Smith</td>
+          <td>
+            <select>
+              <option value="admin">Admin</option>
+              <option value="editor">Editor</option>
+              <option value="viewer">Viewer</option>
+            </select>
+            <button class="addBtn">Toevoegen</button>
+          </td>
+          <td><button class="deleteBtn"><img src="trashcan.png" alt="Verwijderen"></button></td>
+        </tr>
+        <!-- More users can be added here -->
+      </tbody>
+    </table>
+    <form>
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name">
+        <label for="role">Role:</label>
+        <input type="text" id="role" name="role">
+        <button type="submit" class="createBtn">Create</button>
+      </form>
+      
+    <script src="tabel.js"></script>
+  </body>
 </html>
+
