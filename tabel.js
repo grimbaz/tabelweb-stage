@@ -43,3 +43,18 @@ document.querySelector(".saveBtn").addEventListener("click", function(event) {
   const modal = document.querySelector("#myModal");
   modal.style.display = "none";
 });
+
+// Get the table body element
+const tableBody = document.getElementById("userTableBody");
+
+// Add a click event listener to the table body
+tableBody.addEventListener("click", function(event) {
+  // Check if the clicked element is a delete button
+  if (event.target.classList.contains("deleteBtn")) {
+    // Get the parent row of the clicked button
+    const row = event.target.parentNode.parentNode;
+
+    // Remove the row from the table
+    row.remove();
+  }
+});
