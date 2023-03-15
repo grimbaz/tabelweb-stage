@@ -173,7 +173,7 @@
   }
   
   .close {
-    color: #333;
+    color: #888;
     float: right;
     font-size: 28px;
     font-weight: bold;
@@ -181,7 +181,7 @@
   
   .close:hover,
   .close:focus {
-    color: #000;
+    color: #fff;
     text-decoration: none;
     cursor: pointer;
   }
