@@ -36,6 +36,20 @@ window.addEventListener('click', function(e) {
     }
 });
 
+// the button nav in the nav bar called creat 
+// Get the button element by ID
+var creat_u = document.getElementById("creat_u");
+
+// Add a click event listener to the button
+creat_u.addEventListener("click", function() {
+
+    // Set the URL of the new page
+    var url = "create.html";
+
+    window.location.href = url;
+});
+
+
 //First, add an event listener to the create button in your JavaScript code
 const createBtn = document.querySelector('.createBtn');
 createBtn.addEventListener('click', createUser);
