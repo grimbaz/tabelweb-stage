@@ -1,61 +1,68 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8">
-    <title>User Roles</title>
-    <link rel="stylesheet" href="tabel.css">
-  </head>
-  <body>
-    <nav>
-      <button id="listBtn">Lijst</button>
-      <button id="rolesBtn">Rollen</button>
-      <button id="createBtn">Creëer</button>
-    </nav>
-    <table>
-      <thead>
-        <tr>
-          <th>Naam</th>
-          <th>Rollen</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>John Doe</td>
-          <td>
-            <select>
-              <option value="admin">Admin</option>
-              <option value="editor">Editor</option>
-              <option value="viewer">Viewer</option>
-            </select>
-            <button class="addBtn">Toevoegen</button>
-          </td>
-          <td><button class="deleteBtn"><img src="trashcan.png" alt="Verwijderen"></button></td>
-        </tr>
-        <tr>
-          <td>Jane Smith</td>
-          <td>
-            <select>
-              <option value="admin">Admin</option>
-              <option value="editor">Editor</option>
-              <option value="viewer">Viewer</option>
-            </select>
-            <button class="addBtn">Toevoegen</button>
-          </td>
-          <td><button class="deleteBtn"><img src="trashcan.png" alt="Verwijderen"></button></td>
-        </tr>
-        <!-- More users can be added here -->
-      </tbody>
-    </table>
-    <form>
-        <label for="name">Name:</label>
-        <input type="text" id="name" name="name">
-        <label for="role">Role:</label>
-        <input type="text" id="role" name="role">
-        <button type="submit" class="createBtn">Create</button>
-      </form>
-      
-    <script src="tabel.js"></script>
-  </body>
-</html>
+<head>
+	<title>User Management System</title>
+	<link rel="stylesheet" type="text/css" href="tabel.css">
+</head>
+<body>
+	<header>
+		<nav>
+			<div class="logo">User Management System</div>
+				<button class="nav-btn">Create</button>
+			</div>
+		</nav>
+	</header>
 
+	<main>
+		<table>
+			<thead>
+				<tr>
+					<th>User</th>
+					<th>Roles</th>
+					<th>Edit</th>
+					<th>Delete</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>John Doe</td>
+					<td>Role 1, Role 2</td>
+					<td><button class="editBtn">&#x270E;</button></td>
+					<td><button class="deleteBtn">&#x1F5D1;</button></td>
+				</tr>
+				<tr>
+					<td>Jane Smith</td>
+					<td>Role 2</td>
+					<td><button class="editBtn">&#x270E;</button></td>
+					<td><button class="deleteBtn">&#x1F5D1;</button></td>
+				</tr>
+				<tr>
+					<td>Bob Johnson</td>
+					<td>Role 3</td>
+					<td><button class="editBtn">&#x270E;</button></td>
+					<td><button class="deleteBtn">&#x1F5D1;</button></td>
+				</tr>
+			</tbody>
+		</table>
+	</main>
+
+	<div id="myModal" class="modal">
+		<div class="modal-content">
+			<span class="close">&times;</span>
+			<form>
+				<label for="username">Username:</label>
+				<input type="text" id="username" name="username"><br><br>
+				<label for="role">Role:</label>
+				<select id="role" name="role">
+				  <option value="role1">Role 1</option>
+				  <option value="role2">Role 2</option>
+				  <option value="role3">Role 3</option>
+				</select><br><br>
+				<button type="submit" class="saveBtn">Save</button>
+			</form>
+		</div>
+	</div>
+
+	<script src="tabel.js"></script>
+</body>
+</html>
