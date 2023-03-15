@@ -1,5 +1,5 @@
 // voorbeeldgegevens van gebruikers en rollen
-var userData = [	{		naam: "John",		rollen: ["admin", "editor"]
+var userData = [	{		naam: "John",		rollen: ["admin"]
 	},
 	{
 		naam: "Jane",
