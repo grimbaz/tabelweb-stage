@@ -186,3 +186,23 @@
     cursor: pointer;
   }
   
+  .roleBtn {
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    margin-right: 8px;
+    margin-bottom: 8px;
+    cursor: pointer;
+  }
+  
+  .roleBtn.selected {
+    background-color: green;
+  }
+  
+  #roles {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  

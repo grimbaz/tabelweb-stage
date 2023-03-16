@@ -21,6 +21,41 @@ home.addEventListener("click", function() {
 });
 // the end!!!!!!! of making the 2 buttons home and create that gives back a window
 
+//roles menu
+// Add event listener for role button click in create modal window
+const roleBtns = document.querySelectorAll(".roleBtn");
+roleBtns.forEach((btn) => {
+  btn.addEventListener("click", function() {
+    if (btn.classList.contains("selected")) {
+      btn.classList.remove("selected");
+      btn.style.backgroundColor = "red";
+    } else {
+      btn.classList.add("selected");
+      btn.style.backgroundColor = "green";
+    }
+  });
+});
+
+// Add event listener for close button click in create modal window
+const closeBtn = document.querySelector(".close");
+closeBtn.addEventListener("click", function() {
+  const modal = document.querySelector("#myModal");
+  modal.style.display = "none";
+});
+
+// Add event listener for submit button click in create modal window
+const saveBtn = document.querySelector(".saveBtn");
+saveBtn.addEventListener("click", function() {
+  const username = document.querySelector("#username").value;
+  const selectedRoles = document.querySelectorAll(".selected");
+  const roles = Array.from(selectedRoles).map((role) => role.dataset.value);
+  console.log("Username: ", username);
+  console.log("Selected roles: ", roles);
+});
+
+
+//end!!!! roles menu
+
 //the save button save the data in the list
 const userTableBody = document.querySelector("#userTableBody");
 
@@ -47,10 +82,10 @@ document.querySelector(".saveBtn").addEventListener("click", function(event) {
 //the end!!!! of the save button save the data in the list
 
 //the cross to close the creat window
-const closeBtn = document.querySelector('.close');
+const closecreate = document.querySelector('.close');
 const modal = document.getElementById('myModal');
 
-closeBtn.addEventListener('click', () => {
+closecreate.addEventListener('click', () => {
   modal.style.display = 'none';
 });
 //the end!!!!!! of the cross to close the creat window
