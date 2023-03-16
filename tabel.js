@@ -57,28 +57,56 @@ saveBtn.addEventListener("click", function() {
 //end!!!! roles menu
 
 //the save button save the data in the list
-const userTableBody = document.querySelector("#userTableBody");
 
-document.querySelector(".saveBtn").addEventListener("click", function(event) {
-  event.preventDefault(); // prevent the form from actually submitting
+saveBtn.addEventListener("click", function(event) {
   
-  const username = document.querySelector("#username").value;
-  const role = document.querySelector("#role").value;
-  
-  const newRow = document.createElement("tr");
-  newRow.innerHTML = `
-    <td>${username}</td>
-    <td>${role}</td>
-    <td><button class="editBtn">&#x270E;</button></td>
-    <td><button class="deleteBtn">&#x1F5D1;</button></td>
-  `;
-  
-  userTableBody.appendChild(newRow);
-  
-  // close the modal
+  event.preventDefault();
+
   const modal = document.querySelector("#myModal");
+  const username = document.querySelector("#username").value;
+  const selectedRoles = document.querySelectorAll(".roleBtn.selected");
+  const roles = [];
+  selectedRoles.forEach(function(role) {
+    roles.push(role.innerText);
+  });
+
+  // create a new row in the user table
+  const userListTable = document.querySelector("#userTableBody");
+  const newRow = document.createElement("tr");
+
+  // add name column to the row
+  const nameCell = document.createElement("td");
+  nameCell.innerText = username;
+  newRow.appendChild(nameCell);
+
+  // add roles column to the row
+  const rolesCell = document.createElement("td");
+  rolesCell.innerText = roles.join(", ");
+  newRow.appendChild(rolesCell);
+
+  // add edit column to the row
+  const editCell = document.createElement("td");
+  const editButton = document.createElement("button");
+  editButton.classList.add("editBtn");
+  editButton.innerHTML = "&#x270E;";
+  editCell.appendChild(editButton);
+  newRow.appendChild(editCell);
+
+  // add delete column to the row
+  const deleteCell = document.createElement("td");
+  const deleteButton = document.createElement("button");
+  deleteButton.classList.add("deleteBtn");
+  deleteButton.innerHTML = "&#x1F5D1;";
+  deleteCell.appendChild(deleteButton);
+  newRow.appendChild(deleteCell);
+
+  // add the new row to the user table
+  userListTable.appendChild(newRow);
+
   modal.style.display = "none";
 });
+
+
 //the end!!!! of the save button save the data in the list
 
 //the cross to close the creat window
@@ -108,70 +136,5 @@ tabledel.addEventListener("click", function(event) {
 // end!!!!! of delete buttons
 
 //the edit buttons
-// Get the table body element
-const tableedit = document.getElementById('userTableBody');
 
-// Add an event listener to each edit button
-tableedit.addEventListener('click', function(event) {
-  // Get the target element of the click event
-  const target = event.target;
-
-  // If the target is an edit button, create a dropdown menu for the user roles
-  if (target.classList.contains('editBtn')) {
-    // Get the table row that contains the edit button
-    const row = target.closest('tr');
-
-    // Get the user name and roles from the table row
-    const user = row.querySelector('td:first-child').textContent;
-    const roles = row.querySelector('td:nth-child(2)').textContent.split(', ');
-
-    // Create a dropdown menu for the roles
-    const select = document.createElement('select');
-
-    // Add options to the dropdown menu for each role
-    const option1 = document.createElement('option');
-    option1.value = '';
-    option1.text = 'Select a role';
-    select.add(option1);
-
-    const option2 = document.createElement('option');
-    option2.value = 'Role 1';
-    option2.text = 'Role 1';
-    select.add(option2);
-
-    const option3 = document.createElement('option');
-    option3.value = 'Role 2';
-    option3.text = 'Role 2';
-    select.add(option3);
-
-    const option4 = document.createElement('option');
-    option4.value = 'Role 3';
-    option4.text = 'Role 3';
-    select.add(option4);
-
-    // Set the selected option to the current role of the user
-    select.value = roles[0];
-
-    // Replace the roles cell in the table row with the dropdown menu
-    const rolesCell = row.querySelector('td:nth-child(2)');
-    rolesCell.innerHTML = '';
-    rolesCell.appendChild(select);
-
-    // Add an event listener to the dropdown menu to update the user role when a new role is selected
-    select.addEventListener('change', function(event) {
-      // Get the new role from the dropdown menu
-      const newRole = event.target.value;
-
-      // Update the roles cell in the table row with the new role
-      rolesCell.innerHTML = newRole;
-
-      // Update the roles array for the user
-      roles[0] = newRole;
-
-      // Update the table row with the new roles array
-      const newRoles = roles.join(', ');
-      row.querySelector('td:nth-child(2)').textContent = newRoles;
-    });
-  }
-});
 //end!!!!!!!!! of the edit buttons
