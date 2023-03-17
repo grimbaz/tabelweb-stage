@@ -136,6 +136,7 @@ tabledel.addEventListener("click", function(event) {
 // end!!!!! of delete buttons
 
 //the edit buttons
+
 const editBtns = document.querySelectorAll(".editBtn");
 
 // Add a click event listener to each "Edit" button
