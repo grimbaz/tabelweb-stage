@@ -192,9 +192,19 @@ editBtns.forEach((editBtn) => {
   });
 });
 
+const editModal = document.getElementById("editModal");
+const editcloseBtn = editModal.querySelector(".close");
 
+// Close the edit modal popup window when the close button is clicked
+editcloseBtn.addEventListener("click", function() {
+  editModal.style.display = "none";
+});
 
-
-
+// Close the edit modal popup window when the user clicks anywhere outside of the modal content
+window.addEventListener("click", function(event) {
+  if (event.target == editModal) {
+    editModal.style.display = "none";
+  }
+});
 
 //end!!!!!!!!! of the edit buttons
