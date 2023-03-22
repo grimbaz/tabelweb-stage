@@ -141,15 +141,16 @@ tabledel.addEventListener("click", function(event) {
   $(document).ready(function(){
     $(".editBtn").click(function(event){
       event.preventDefault();
-  
+      $(".editRoleBtn").removeClass("green");
       // Get the index of the row being edited
       var rowIndex = $(this).closest("tr").index();
   
       // Get the name from the corresponding row
       var name = $("#userTableBody tr").eq(rowIndex).find(".name").text();
-  
+      
       // Set the name in the edit modal
       $("#editName").val(name);
+      
   
       // Show the edit modal
       $("#editModal").css("display", "block");
@@ -159,7 +160,6 @@ tabledel.addEventListener("click", function(event) {
   
       // Loop through the roles and add the "green" class to the relevant buttons
       $(".editRoleBtn").each(function() {
-        $(this).removeClass("green");
         var role = $(this).data("value");
         if (roles.indexOf(role) !== -1) {
           $(this).addClass("green");
@@ -185,11 +185,11 @@ tabledel.addEventListener("click", function(event) {
         
         // Get the new name from the edit modal
         var newName = $("#editName").val();
-        
+        var newroles = $(".green").text();
         // Update the corresponding row with the new name
         
         $("#userTableBody tr").eq(rowIndex).find(".name").text(newName);
-        
+        $("#userTableBody tr").eq(rowIndex).find(".role").text(newroles);
         // Hide the edit modal
         $("#editModal").css("display", "none");
       });
