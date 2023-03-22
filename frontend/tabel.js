@@ -137,74 +137,63 @@ tabledel.addEventListener("click", function(event) {
 
 //the edit buttons
 
-const editBtns = document.querySelectorAll(".editBtn");
+  //edit save button
+  $(document).ready(function(){
+    $(".editBtn").click(function(event){
+      event.preventDefault();
+  
+      // Get the index of the row being edited
+      var rowIndex = $(this).closest("tr").index();
+  
+      // Get the name from the corresponding row
+      var name = $("#userTableBody tr").eq(rowIndex).find(".name").text();
+  
+      // Set the name in the edit modal
+      $("#editName").val(name);
+  
+      // Show the edit modal
+      $("#editModal").css("display", "block");
+  
+      // Get the roles from the corresponding row
+      var roles = $("#userTableBody tr").eq(rowIndex).find("td:eq(1)").text().split(", ");
+  
+      // Loop through the roles and add the "green" class to the relevant buttons
+      $(".editRoleBtn").each(function() {
+        $(this).removeClass("green");
+        var role = $(this).data("value");
+        if (roles.indexOf(role) !== -1) {
+          $(this).addClass("green");
+        }
+      });  
+  
+      // Remove the click event handler for the Save button
+      $(".saveEditBtn").off("click");
+      //make roles green or red
+      $(document).ready(function(){
+        $(".editRoleBtn").click(function(event){
+          event.preventDefault();
+          $(this).toggleClass("green");
+        });
+      });
 
-// Add a click event listener to each "Edit" button
-editBtns.forEach((editBtn) => {
-  editBtn.addEventListener("click", function(event) {
-    // Show the edit modal popup window
-    const editModal = document.getElementById("editModal");
-    editModal.style.display = "block";
-
-    // Get the parent row of the clicked button
-    const row = event.target.parentNode.parentNode;
-
-    // Get the name and roles values from the row
-    const name = row.querySelector("td:first-child").innerText;
-    const roles = row.querySelector("td:nth-child(2)").innerText.split(", ");
-
-    // Set the name and roles values in the edit modal window
-    const editNameInput = document.querySelector("#editName");
-    editNameInput.value = name;
-
-    const editRoleBtns = document.querySelectorAll(".editRoleBtn");
-
-    editRoleBtns.forEach((editRoleBtn) => {
-      const roleValue = editRoleBtn.dataset.value;
-      if (roles.includes(roleValue)) {
-        editRoleBtn.classList.add("selected");
-        editRoleBtn.style.backgroundColor = "green";
-      } else {
-        editRoleBtn.classList.remove("selected");
-        editRoleBtn.style.backgroundColor = "red";
-      }
-
-      editRoleBtn.addEventListener("click", function(event) {
-        event.target.classList.toggle("selected");
-        event.target.style.backgroundColor = event.target.classList.contains("selected") ? "green" : "red";
+      $(".close").click(function(){
+        $("#editModal").css("display", "none");
+      });
+      // Save the edited name and roles when the Save button is clicked
+      $(".saveEditBtn").click(function(event){
+        event.preventDefault();
+        
+        // Get the new name from the edit modal
+        var newName = $("#editName").val();
+        
+        // Update the corresponding row with the new name
+        
+        $("#userTableBody tr").eq(rowIndex).find(".name").text(newName);
+        
+        // Hide the edit modal
+        $("#editModal").css("display", "none");
       });
     });
-
-    // Add a click event listener to the save button in the edit modal window
-    const saveEditBtn = document.querySelector(".saveEditBtn");
-    saveEditBtn.addEventListener("click", function() {
-      // Get the updated name and roles values from the edit modal window
-      const updatedName = editNameInput.value;
-      const updatedRoles = Array.from(editModal.querySelectorAll(".selected")).map((role) => role.dataset.value);
-
-      // Update the name and roles values in the row
-      row.querySelector("td:first-child").innerText = updatedName;
-      row.querySelector("td:nth-child(2)").innerText = updatedRoles.join(", ");
-
-      // Hide the edit modal popup window
-      editModal.style.display = "none";
-    });
   });
-});
-
-const editModal = document.getElementById("editModal");
-const editcloseBtn = editModal.querySelector(".close");
-
-// Close the edit modal popup window when the close button is clicked
-editcloseBtn.addEventListener("click", function() {
-  editModal.style.display = "none";
-});
-
-// Close the edit modal popup window when the user clicks anywhere outside of the modal content
-window.addEventListener("click", function(event) {
-  if (event.target == editModal) {
-    editModal.style.display = "none";
-  }
-});
-
+  
 //end!!!!!!!!! of the edit buttons

@@ -3,7 +3,7 @@
 <head>
 	<title>User Management System</title>
 	<link rel="stylesheet" type="text/css" href="tabel.css">
-  <script src="jquery-3.6.4.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 </head>
 <body>
 	<header>
@@ -64,25 +64,26 @@
         </thead>
         <tbody id="userTableBody">
           <tr>
-            <td>John Doe</td>
-            <td>Role 1</td>
-            <td><button class="editBtn">&#x270E;</button></td>
+            <td class="name">John Doe</td>
+            <td class = "role">Role 1</td>
+            <td><button class="editBtn" data-rowindex="0">&#x270E;</button></td>
             <td><button class="deleteBtn">&#x1F5D1;</button></td>
           </tr>
           <tr>
-            <td>Jane Smith</td>
-            <td>Role 2</td>
-            <td><button class="editBtn">&#x270E;</button></td>
+            <td class="name">Jane Smith</td>
+            <td class = "role">Role 2</td>
+            <td><button class="editBtn" data-rowindex="1">&#x270E;</button></td>
             <td><button class="deleteBtn">&#x1F5D1;</button></td>
           </tr>
           <tr>
-            <td>Bob Johnson</td>
-            <td>Role 3</td>
-            <td><button class="editBtn">&#x270E;</button></td>
+            <td class="name">Bob Johnson</td>
+            <td classe = "role">Role 3</td>
+            <td><button class="editBtn" data-rowindex="2">&#x270E;</button></td>
             <td><button class="deleteBtn">&#x1F5D1;</button></td>
           </tr> 
         </tbody>
       </table>
+      
       
       <div id="editModal" class="modal">
         <div class="modal-content">

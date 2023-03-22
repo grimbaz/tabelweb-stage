@@ -218,9 +218,6 @@
     background-color: rgba(0, 0, 0, 0.4);
   }
   
-  .selected {
-    color: white;
-  }
   
   .editRoleBtn {
     background-color: red;
@@ -231,7 +228,7 @@
     cursor: pointer;
   }
   
-  .editRoleBtn.selected {
+  .editRoleBtn.green {
     background-color: green;
   }
   
