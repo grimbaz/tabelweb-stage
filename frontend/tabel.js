@@ -116,19 +116,14 @@ closecreate.addEventListener("click", () => {
 
 //these are the delete buttons
 // Get the table body element
-const tabledel = document.getElementById("userTableBody");
+$("#userTableBody").on("click", ".deleteBtn", function () {
+  // Get the parent row of the clicked button
+  const row = $(this).closest("tr");
 
-// Add a click event listener to the table body
-tabledel.addEventListener("click", function (event) {
-  // Check if the clicked element is a delete button
-  if (event.target.classList.contains("deleteBtn")) {
-    // Get the parent row of the clicked button
-    const row = event.target.parentNode.parentNode;
-
-    // Remove the row from the table
-    row.remove();
-  }
+  // Remove the row from the table
+  row.remove();
 });
+
 // end!!!!! of delete buttons
 
 //the edit buttons
@@ -185,6 +180,5 @@ $(document).ready(function () {
     });
   });
 });
-
 
 //end!!!!!!!!! of the edit buttons
