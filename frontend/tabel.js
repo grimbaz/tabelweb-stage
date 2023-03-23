@@ -10,109 +10,55 @@ home.addEventListener("click", function () {
 });
 // the end!!!!!!! of making the home
 
-// Get the "Create" button element
-const createBtn = document.getElementById("createBtn");
-
-// Add a click event listener to the "Create" button
-createBtn.addEventListener("click", function (event) {
-  // Show the modal popup window
-  const modal = document.getElementById("myModal");
-  modal.style.display = "block";
-});
-
-//roles menu
-// Add event listener for role button click in create modal window
-const roleBtns = document.querySelectorAll(".roleBtn");
-roleBtns.forEach((btn) => {
-  btn.addEventListener("click", function () {
-    if (btn.classList.contains("selected")) {
-      btn.classList.remove("selected");
-      btn.style.backgroundColor = "red";
-    } else {
-      btn.classList.add("selected");
-      btn.style.backgroundColor = "green";
-    }
+//the create buttons
+$(document).ready(function () {
+  //make roles green or red
+  $(".roleBtn").click(function (event) {
+    event.preventDefault();
+    $(this).toggleClass("green");
   });
 });
+  $(document).ready(function () {
+  $(".createBtn").click(function (event) {
+    event.preventDefault();
+    $(".roleBtn").removeClass("green");
+  
+    // Set the name in the edit modal empty
+    $("#username").val("");
 
-// Add event listener for close button click in create modal window
-const closeBtn = document.querySelector(".close");
-closeBtn.addEventListener("click", function () {
-  const modal = document.querySelector("#myModal");
-  modal.style.display = "none";
-});
-
-// Add event listener for submit button click in create modal window
-const saveBtn = document.querySelector(".saveBtn");
-saveBtn.addEventListener("click", function () {
-  const username = document.querySelector("#username").value;
-  const selectedRoles = document.querySelectorAll(".selected");
-  const roles = Array.from(selectedRoles).map((role) => role.dataset.value);
-  console.log("Username: ", username);
-  console.log("Selected roles: ", roles);
-});
-
-//end!!!! roles menu
-
-//the save button save the data in the list
-
-saveBtn.addEventListener("click", function (event) {
-  event.preventDefault();
-
-  const modal = document.querySelector("#myModal");
-  const username = document.querySelector("#username").value;
-  const selectedRoles = document.querySelectorAll(".roleBtn.selected");
-  const roles = [];
-  selectedRoles.forEach(function (role) {
-    roles.push(role.innerText);
+    // Show the edit modal
+    $("#myModal").css("display", "block");
   });
+    $(".close").click(function () {
+      $("#myModal").css("display", "none");
+    });
+  });
+    // Save the edited name and roles when the Save button is clicked
+    $(".saveBtn").click(function (event) {
+      event.preventDefault();
 
-  // create a new row in the user table
-  const userListTable = document.querySelector("#userTableBody");
-  const newRow = document.createElement("tr");
+      // Get the new name from the edit modal
+      var Name = $("#username").val();
+      var roles = $(".green").text();
+      // Update the corresponding row with the new name
+      var lastId = $("#userTableBody tr:last").attr("id");
+      console.log(lastId); // Set to the last assigned id
 
-  // add name column to the row
-  const nameCell = document.createElement("td");
-  nameCell.innerText = username;
-  newRow.appendChild(nameCell);
+      // When adding a new row:
+      lastId++; // Increment the id counter
+      newRow = $("<tr>", { id: lastId }); // Create a new row with the new id
+      // Add the row's cells
+      newRow.append($("<td>", { class: "name", text: Name }));
+      newRow.append($("<td>", { class: "role", text: roles }));
+      newRow.append($("<td>").append($("<button>", { class: "editBtn", text: "✎" })));
+      newRow.append($("<td>").append($("<button>", { class: "deleteBtn", text: "🗑" })));
+      $("#userTableBody").append(newRow); // Add the new row to the table
 
-  // add roles column to the row
-  const rolesCell = document.createElement("td");
-  rolesCell.innerText = roles.join(", ");
-  newRow.appendChild(rolesCell);
+      // Hide the edit modal
+      $("#myModal").css("display", "none");
+    });
 
-  // add edit column to the row
-  const editCell = document.createElement("td");
-  const editButton = document.createElement("button");
-  editButton.classList.add("editBtn");
-  editButton.innerHTML = "&#x270E;";
-  editCell.appendChild(editButton);
-  newRow.appendChild(editCell);
-
-  // add delete column to the row
-  const deleteCell = document.createElement("td");
-  const deleteButton = document.createElement("button");
-  deleteButton.classList.add("deleteBtn");
-  deleteButton.innerHTML = "&#x1F5D1;";
-  deleteCell.appendChild(deleteButton);
-  newRow.appendChild(deleteCell);
-
-  // add the new row to the user table
-  userListTable.appendChild(newRow);
-
-  modal.style.display = "none";
-});
-
-//the end!!!! of the save button save the data in the list
-
-//the cross to close the creat window
-const closecreate = document.querySelector(".close");
-const modal = document.getElementById("myModal");
-
-closecreate.addEventListener("click", () => {
-  modal.style.display = "none";
-});
-//the end!!!!!! of the cross to close the creat window
+//end!!!!! of create button
 
 //these are the delete buttons
 // Get the table body element
@@ -128,6 +74,10 @@ $("#userTableBody").on("click", ".deleteBtn", function () {
 
 //the edit buttons
 $(document).ready(function () {
+  $(".editRoleBtn").click(function (event) {
+    event.preventDefault();
+    $(this).toggleClass("green");
+  });
   $(".editBtn").click(function (event) {
     event.preventDefault();
     $(".editRoleBtn").removeClass("green");
@@ -155,12 +105,6 @@ $(document).ready(function () {
     // Remove the click event handler for the Save button
     $(".saveEditBtn").off("click");
     //make roles green or red
-    $(document).ready(function () {
-      $(".editRoleBtn").click(function (event) {
-        event.preventDefault();
-        $(this).toggleClass("green");
-      });
-    });
 
     $(".close").click(function () {
       $("#editModal").css("display", "none");

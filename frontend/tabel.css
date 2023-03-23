@@ -197,7 +197,7 @@
     cursor: pointer;
   }
   
-  .roleBtn.selected {
+  .roleBtn.green {
     background-color: green;
   }
   
