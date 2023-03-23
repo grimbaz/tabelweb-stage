@@ -1,12 +1,3 @@
-// Get the "Create" button element
-const createBtn = document.getElementById("createBtn");
-
-// Add a click event listener to the "Create" button
-createBtn.addEventListener("click", function(event) {
-  // Show the modal popup window
-  const modal = document.getElementById("myModal");
-  modal.style.display = "block";
-});
 
 // home button
 var home = document.getElementById("home");
@@ -19,7 +10,18 @@ home.addEventListener("click", function() {
 
     window.location.href = url;
 });
-// the end!!!!!!! of making the 2 buttons home and create that gives back a window
+// the end!!!!!!! of making the home
+
+// Get the "Create" button element
+const createBtn = document.getElementById("createBtn");
+
+// Add a click event listener to the "Create" button
+createBtn.addEventListener("click", function(event) {
+  // Show the modal popup window
+  const modal = document.getElementById("myModal");
+  modal.style.display = "block";
+});
+
 
 //roles menu
 // Add event listener for role button click in create modal window
