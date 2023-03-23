@@ -18,45 +18,49 @@ $(document).ready(function () {
     $(this).toggleClass("green");
   });
 });
-  $(document).ready(function () {
+$(document).ready(function () {
   $(".createBtn").click(function (event) {
     event.preventDefault();
     $(".roleBtn").removeClass("green");
-  
+
     // Set the name in the edit modal empty
     $("#username").val("");
 
     // Show the edit modal
     $("#myModal").css("display", "block");
   });
-    $(".close").click(function () {
-      $("#myModal").css("display", "none");
-    });
+  $(".close").click(function () {
+    $("#myModal").css("display", "none");
   });
-    // Save the edited name and roles when the Save button is clicked
-    $(".saveBtn").click(function (event) {
-      event.preventDefault();
+});
+// Save the edited name and roles when the Save button is clicked
+$(".saveBtn").click(function (event) {
+  event.preventDefault();
 
-      // Get the new name from the edit modal
-      var Name = $("#username").val();
-      var roles = $(".green").text();
-      // Update the corresponding row with the new name
-      var lastId = $("#userTableBody tr:last").attr("id");
-      console.log(lastId); // Set to the last assigned id
+  // Get the new name from the edit modal
+  var Name = $("#username").val();
+  var roles = $(".green").text();
+  // Update the corresponding row with the new name
+  var lastId = $("#userTableBody tr:last").attr("id");
+  console.log(lastId); // Set to the last assigned id
 
-      // When adding a new row:
-      lastId++; // Increment the id counter
-      newRow = $("<tr>", { id: lastId }); // Create a new row with the new id
-      // Add the row's cells
-      newRow.append($("<td>", { class: "name", text: Name }));
-      newRow.append($("<td>", { class: "role", text: roles }));
-      newRow.append($("<td>").append($("<button>", { class: "editBtn", text: "✎" })));
-      newRow.append($("<td>").append($("<button>", { class: "deleteBtn", text: "🗑" })));
-      $("#userTableBody").append(newRow); // Add the new row to the table
+  // When adding a new row:
+  lastId++; // Increment the id counter
+  newRow = $("<tr>", { id: lastId }); // Create a new row with the new id
+  // Add the row's cells
+  newRow.append($("<td>", { class: "name", text: Name }));
+  newRow.append($("<td>", { class: "role", text: roles }));
+  newRow.append(
+    $("<td>").append($("<button>", { class: "editBtn", text: "✎" }))
+  );
+  newRow.append(
+    $("<td>").append($("<button>", { class: "deleteBtn", text: "🗑" }))
+  );
+  $("#userTableBody").append(newRow); // Add the new row to the table
 
-      // Hide the edit modal
-      $("#myModal").css("display", "none");
-    });
+  // Hide the edit modal
+  $("#myModal").css("display", "none");
+});
 
 //end!!!!! of create button
 
