@@ -137,11 +137,10 @@ $(document).ready(function () {
     event.preventDefault();
     $(".editRoleBtn").removeClass("green");
     // Get the index of the row being edited
-    var rowIndex = $(this).closest("tr").index();
+    var rowId = $(this).closest("tr").attr("id");
 
     // Get the name from the corresponding row
-    var name = $("#userTableBody tr").eq(rowIndex).find(".name").text();
-
+    var name = $("#" + rowId + " .name").text();
     // Set the name in the edit modal
     $("#editName").val(name);
 
@@ -149,12 +148,7 @@ $(document).ready(function () {
     $("#editModal").css("display", "block");
 
     // Get the roles from the corresponding row
-    var roles = $("#userTableBody tr")
-      .eq(rowIndex)
-      .find("td:eq(1)")
-      .text()
-      .split(", ");
-
+    var roles = $("#" + rowId + " .role").text();
     // Loop through the roles and add the "green" class to the relevant buttons
     $(".editRoleBtn").each(function () {
       var role = $(this).data("value");
@@ -184,13 +178,13 @@ $(document).ready(function () {
       var newName = $("#editName").val();
       var newroles = $(".green").text();
       // Update the corresponding row with the new name
-
-      $("#userTableBody tr").eq(rowIndex).find(".name").text(newName);
-      $("#userTableBody tr").eq(rowIndex).find(".role").text(newroles);
+      $("#" + rowId + " .name").text(newName);
+      $("#" + rowId + " .role").text(newroles);
       // Hide the edit modal
       $("#editModal").css("display", "none");
     });
   });
 });
+
 
 //end!!!!!!!!! of the edit buttons
