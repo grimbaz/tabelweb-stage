@@ -10,7 +10,7 @@ users = [
     },
     {
         "name": "jeff steve",
-        "roles": ["role2","role5"],
+        "roles": ["role2", "role5"],
         "id": 78
     },
     {
@@ -25,7 +25,63 @@ roles = [
     },
     {
         "name": "role2"
+    },
+    {
+        "name": "role3"
+    },
+    {
+        "name": "role4"
+    },
+    {
+        "name": "role5"
+    },
+    {
+        "name": "role6"
+    },
+    {
+        "name": "role7"
+    },
+    {
+        "name": "role8"
+    },
+    {
+        "name": "role9"
+    },
+    {
+        "name": "role10"
+    },
+    {
+        "name": "role11"
+    },
+    {
+        "name": "role12"
+    },
+    {
+        "name": "role13"
+    },
+    {
+        "name": "role14"
+    },
+    {
+        "name": "role15"
+    },
+    {
+        "name": "role16"
+    },
+    {
+        "name": "role17"
+    },
+    {
+        "name": "role18"
+    },
+    {
+        "name": "role19"
+    },
+    {
+        "name": "role20"
     }
+
+
 
 ]
 
@@ -86,7 +142,7 @@ def del_users(name):
 def update_roles(name):
     # Check if user exist.
     request_data = request.get_json()
-    #enumerate(): looks in what place the user is en the index is the number that the user is placed in that list so we loop 3th user and the index is gonna be 3
+    # enumerate(): looks in what place the user is en the index is the number that the user is placed in that list so we loop 3th user and the index is gonna be 3
     for index, user in enumerate(users):
         # Replace user entry in users
         if user["name"] == name:

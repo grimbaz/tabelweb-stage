@@ -10,10 +10,46 @@ $.ajax({
       newRow = $("<tr>", { id: user.id }); // Create a new row with the new id
       newRow.append($("<td>", { class: "name", text: user.name }));
       newRow.append($("<td>", { class: "role", text: user.roles }));
-      newRow.append($("<td>").append($("<button>", { class: "editBtn", text: "✎" })));
-      newRow.append($("<td>").append($("<button>", { class: "deleteBtn", text: "🗑" })));
+      newRow.append(
+        $("<td>").append($("<button>", { class: "editBtn", text: "✎" }))
+      );
+      newRow.append(
+        $("<td>").append($("<button>", { class: "deleteBtn", text: "🗑" }))
+      );
       tbody.append(newRow);
     });
+    console.log(response);
+  },
+});
+
+$.ajax({
+  type: "get",
+  url: "http://127.0.0.1:5000/roles",
+  contentType: "application/json",
+  success: function (response) {
+    roles = response.roles;
+    roles.forEach((role) => {
+      var roleBtn ='<button class="roleBtn" data-value="' + role.name +'">' + role.name + "</button>";
+      $("#roles").append(roleBtn);
+    });
+    // code to save the edited roles
+
+    console.log(response);
+  },
+});
+
+$.ajax({
+  type: "get",
+  url: "http://127.0.0.1:5000/roles",
+  contentType: "application/json",
+  success: function (response) {
+    roles = response.roles;
+    roles.forEach((role) => {
+      var roleBtn ='<button class="editRoleBtn" data-value="' + role.name +'">' + role.name + "</button>";
+      $("#editroles").append(roleBtn);
+    });
+    // code to save the edited roles
+
     console.log(response);
   },
 });
