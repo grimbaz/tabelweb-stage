@@ -1,59 +1,84 @@
-$.ajax({
-  type: "get",
-  url: "http://127.0.0.1:5000/users",
-  contentType: "application/json",
-  success: function (response) {
-    // Handle the response from Flask backend
-    users = response.users;
-    tbody = $("#userTableBody");
-    users.forEach((user) => {
-      newRow = $("<tr>", { id: user.id }); // Create a new row with the new id
-      newRow.append($("<td>", { class: "name", text: user.name }));
-      newRow.append($("<td>", { class: "role", text: user.roles }));
-      newRow.append(
-        $("<td>").append($("<button>", { class: "editBtn", text: "✎" }))
-      );
-      newRow.append(
-        $("<td>").append($("<button>", { class: "deleteBtn", text: "🗑" }))
-      );
-      tbody.append(newRow);
-    });
-    console.log(response);
-  },
-});
+$.fn.loadusers = function () {
+  $.ajax({
+    type: "get",
+    url: "http://127.0.0.1:5000/users",
+    contentType: "application/json",
+    success: function (response) {
+      // Handle the response from Flask backend
+      users = response.users;
+      tbody = $("#userTableBody");
+      users.forEach((user) => {
+        newRow = $("<tr>", { id: user.id }); // Create a new row with the new id
+        newRow.append($("<td>", { class: "name", text: user.name }));
+        newRow.append($("<td>", { class: "role", text: user.roles }));
+        newRow.append(
+          $("<td>").append($("<button>", { class: "editBtn", text: "✎" }))
+        );
+        newRow.append(
+          $("<td>").append($("<button>", { class: "deleteBtn", text: "🗑" }))
+        );
+        tbody.append(newRow);
+      });
+      console.log(response);
+    },
+  });
+};
 
-$.ajax({
-  type: "get",
-  url: "http://127.0.0.1:5000/roles",
-  contentType: "application/json",
-  success: function (response) {
-    roles = response.roles;
-    roles.forEach((role) => {
-      var roleBtn ='<button class="roleBtn" data-value="' + role.name +'">' + role.name + "</button>";
-      $("#roles").append(roleBtn);
-    });
-    // code to save the edited roles
+$.fn.loadroles = function () {
+  $.ajax({
+    type: "get",
+    url: "http://127.0.0.1:5000/roles",
+    contentType: "application/json",
+    success: function (response) {
+      roles = response.roles;
+      roles.forEach((role) => {
+        var roleBtn = $("<button>", { class: "roleBtn", data_value: role.name })
+        roleBtn.text(role.name)
+        $("#roles").append(roleBtn);
+      });
+      // code to save the edited roles
 
-    console.log(response);
-  },
-});
+      console.log($("#roles").html());
+    },
+  });
+};
 
-$.ajax({
-  type: "get",
-  url: "http://127.0.0.1:5000/roles",
-  contentType: "application/json",
-  success: function (response) {
-    roles = response.roles;
-    roles.forEach((role) => {
-      var roleBtn ='<button class="editRoleBtn" data-value="' + role.name +'">' + role.name + "</button>";
-      $("#editroles").append(roleBtn);
-    });
-    // code to save the edited roles
+$.fn.loadeditroles = function () {
+  $.ajax({
+    type: "get",
+    url: "http://127.0.0.1:5000/roles",
+    contentType: "application/json",
+    success: function (response) {
+      roles = response.roles;
+      roles.forEach((role) => {
+        var roleBtn =
+          '<button class="editRoleBtn" data-value="' +
+          role.name +
+          '">' +
+          role.name +
+          "</button>";
+        $("#editroles").append(roleBtn);
+      });
+      console.log(response);
+    },
+  });
+};
 
-    console.log(response);
-  },
-});
-
+$.fn.postnewuser = function (newuser) {
+  $.ajax({
+    type: "post",
+    url: "http://127.0.0.1:5000/users",
+    contentType: "application/json",
+    data: newuser,
+    success: function (response) {
+      console.log(data);
+    },
+  });
+  console.log(response);
+};
+$("#userTableBody").loadusers();
+$("#roles").loadroles();
+$("#editroles").loadeditroles();
 // home button
 var home = document.getElementById("home");
 
@@ -70,6 +95,7 @@ home.addEventListener("click", function () {
 $(document).ready(function () {
   //make roles green or red
   $(".roleBtn").click(function (event) {
+    console.log("roles")
     event.preventDefault();
     $(this).toggleClass("green");
   });
@@ -91,28 +117,17 @@ $(document).ready(function () {
 });
 // Save the edited name and roles when the Save button is clicked
 $(".saveBtn").click(function (event) {
+  console.log("enter")
   event.preventDefault();
-
   // Get the new name from the edit modal
-  var Name = $("#username").val();
-  var roles = $(".green").text();
-  // Update the corresponding row with the new name
-  var lastId = $("#userTableBody tr:last").attr("id");
-  console.log(lastId); // Set to the last assigned id
+  var newuser = {
+    name: $("#username").val(),
+    roles: $(".green").val(),
+  };
+  console.log(newuser)
+  $().postnewuser(newuser);
+  console.log("done")
 
-  // When adding a new row:
-  lastId++; // Increment the id counter
-  newRow = $("<tr>", { id: lastId }); // Create a new row with the new id
-  // Add the row's cells
-  newRow.append($("<td>", { class: "name", text: Name }));
-  newRow.append($("<td>", { class: "role", text: roles }));
-  newRow.append(
-    $("<td>").append($("<button>", { class: "editBtn", text: "✎" }))
-  );
-  newRow.append(
-    $("<td>").append($("<button>", { class: "deleteBtn", text: "🗑" }))
-  );
-  $("#userTableBody").append(newRow); // Add the new row to the table
 
   // Hide the edit modal
   $("#myModal").css("display", "none");

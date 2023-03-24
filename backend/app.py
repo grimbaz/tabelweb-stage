@@ -96,7 +96,7 @@ def get_users():
 @cross_origin()
 def create_user():
     request_data = request.get_json()
-    new_user = {"name": request_data["name"], "roles": []}
+    new_user = {"name": request_data["name"], "roles": request_data["roles"], "id" : 45}
     users.append(new_user)
     return new_user, 201
 
