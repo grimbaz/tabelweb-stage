@@ -1,3 +1,16 @@
+$.ajax({
+  type: 'get',
+  url: 'http://127.0.0.1:5000/users',
+  contentType: "application/json",
+  success: function(response) {
+    // Handle the response from Flask backend
+    console.log(response);
+  }
+});
+
+
+
+
 // home button
 var home = document.getElementById("home");
 

@@ -1,10 +1,22 @@
 from flask import Flask, request
+from flask_cors import cross_origin
 
 app = Flask(__name__)
 users = [
     {
-        "name": "grim",
-        "roles": ["role1", "role2"]
+        "name": "grim baeke",
+        "roles": ["role1", "role2"],
+        "id": 34
+    },
+    {
+        "name": "jeff steve",
+        "roles": ["role2","role5"],
+        "id": 78
+    },
+    {
+        "name": "jhon",
+        "roles": ["role4", "role7"],
+        "id": 56
     }
 ]
 roles = [
@@ -19,11 +31,13 @@ roles = [
 
 
 @app.get("/users")
+@cross_origin()
 def get_users():
     return {"users": users}
 
 
 @app.post("/users")
+@cross_origin()
 def create_user():
     request_data = request.get_json()
     new_user = {"name": request_data["name"], "roles": []}
@@ -32,6 +46,7 @@ def create_user():
 
 
 @app.post("/users/<string:name>/role")
+@cross_origin()
 def add_roles(name):
     request_data = request.get_json()
     for user in users:
@@ -43,6 +58,7 @@ def add_roles(name):
 
 
 @app.get("/users/<string:name>")
+@cross_origin()
 def get_user(name):
     for user in users:
         if user["name"] == name:
@@ -51,6 +67,7 @@ def get_user(name):
 
 
 @app.delete("/users/<string:name>")
+@cross_origin()
 def del_users(name):
     del_user = None
     for user in users:
@@ -65,6 +82,7 @@ def del_users(name):
 
 
 @app.put('/users/<string:name>')
+@cross_origin()
 def update_roles(name):
     # Check if user exist.
     request_data = request.get_json()
@@ -78,11 +96,13 @@ def update_roles(name):
 
 
 @app.get("/roles")
+@cross_origin()
 def get_roles():
     return {"roles": roles}
 
 
 @app.post("/roles")
+@cross_origin()
 def create_roles():
     request_data = request.get_json()
     new_role = {"name": request_data["name"]}
@@ -91,6 +111,7 @@ def create_roles():
 
 
 @app.delete("/roles/<string:name>")
+@cross_origin()
 def del_role(name):
     del_roles = None
     for role in roles:
@@ -105,6 +126,7 @@ def del_role(name):
 
 
 @app.get("/roles/<string:name>")
+@cross_origin()
 def get_role(name):
     for role in roles:
         if role["name"] == name:
