@@ -1,15 +1,22 @@
 $.ajax({
-  type: 'get',
-  url: 'http://127.0.0.1:5000/users',
+  type: "get",
+  url: "http://127.0.0.1:5000/users",
   contentType: "application/json",
-  success: function(response) {
+  success: function (response) {
     // Handle the response from Flask backend
+    users = response.users;
+    tbody = $("#userTableBody");
+    users.forEach((user) => {
+      newRow = $("<tr>", { id: user.id }); // Create a new row with the new id
+      newRow.append($("<td>", { class: "name", text: user.name }));
+      newRow.append($("<td>", { class: "role", text: user.roles }));
+      newRow.append($("<td>").append($("<button>", { class: "editBtn", text: "✎" })));
+      newRow.append($("<td>").append($("<button>", { class: "deleteBtn", text: "🗑" })));
+      tbody.append(newRow);
+    });
     console.log(response);
-  }
+  },
 });
-
-
-
 
 // home button
 var home = document.getElementById("home");
