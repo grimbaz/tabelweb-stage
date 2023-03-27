@@ -65,7 +65,6 @@ $.fn.editrolesBtn = function () {
   });
 };
 
-
 // home button
 var home = document.getElementById("home");
 
@@ -112,28 +111,41 @@ $(".saveBtn").click(function (event) {
 
   // Get the new name from the edit modal
   var Name = $("#username").val();
-  var roles = $(".green").text().split(",");
+  var roles = $(".green")
+  .map(function () {
+    return $(this).text();
+  })
+  .get();
+  $.ajax({
+    url: "http://127.0.0.1:5000/users",
+    type: "POST",
+    data: JSON.stringify({
+      name: Name,
+      roles: roles,
+    }),
+    contentType: "application/json",
+    success: function (response) {
+      // Update the corresponding row with the new name
+      var lastId = $("#userTableBody tr:last").attr("id");
+      console.log(lastId); // Set to the last assigned id
 
-  // Update the corresponding row with the new name
-  var lastId = $("#userTableBody tr:last").attr("id");
-  console.log(lastId); // Set to the last assigned id
-
-  // When adding a new row:
-  lastId++; // Increment the id counter
-  newRow = $("<tr>", { id: lastId }); // Create a new row with the new id
-  // Add the row's cells
-  newRow.append($("<td>", { class: "name", text: Name }));
-  newRow.append($("<td>", { class: "role", text: roles }));
-  newRow.append(
-    $("<td>").append($("<button>", { class: "editBtn", text: "✎" }))
-  );
-  newRow.append(
-    $("<td>").append($("<button>", { class: "deleteBtn", text: "🗑" }))
-  );
-  $("#userTableBody").append(newRow); // Add the new row to the table
-
-  // Hide the edit modal
-  $("#myModal").css("display", "none");
+      // When adding a new row:
+      lastId++; // Increment the id counter
+      newRow = $("<tr>", { id: lastId }); // Create a new row with the new id
+      // Add the row's cells
+      newRow.append($("<td>", { class: "name", text: Name }));
+      newRow.append($("<td>", { class: "role", text: roles }));
+      newRow.append(
+        $("<td>").append($("<button>", { class: "editBtn", text: "✎" }))
+      );
+      newRow.append(
+        $("<td>").append($("<button>", { class: "deleteBtn", text: "🗑" }))
+      );
+      $("#userTableBody").append(newRow); // Add the new row to the table
+      // Hide the edit modal
+      $("#myModal").css("display", "none");
+    },
+  });
 });
 
 //end!!!!! of create button
@@ -173,14 +185,16 @@ $(document).ready(function () {
     $("#editModal").css("display", "block");
 
     // Get the roles from the corresponding row
-    var roles = $("#" + rowId + " .role").text().split(',');
-    console.log("roles:")
-    console.log(roles)
+    var roles = $("#" + rowId + " .role")
+      .text()
+      .split(",");
+    console.log("roles:");
+    console.log(roles);
     // Loop through the roles and add the "green" class to the relevant buttons
     $(".editRoleBtn").each(function () {
       var role = $(this).text();
       if (roles.indexOf(role) !== -1) {
-        console.log(role)
+        console.log(role);
         $(this).addClass("green");
       }
     });
@@ -214,8 +228,8 @@ $(document).ready(function () {
         }),
         contentType: "application/json",
         success: function (response) {
-            $("#" + rowId + " .name").text(newName);
-            $("#" + rowId + " .role").text(newroles);
+          $("#" + rowId + " .name").text(newName);
+          $("#" + rowId + " .role").text(newroles);
         },
       });
 
