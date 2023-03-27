@@ -6,17 +6,17 @@ users = [
     {
         "name": "grim baeke",
         "roles": ["role1", "role2"],
-        "id": 34
+        "id": 1
     },
     {
         "name": "jeff steve",
         "roles": ["role2", "role5"],
-        "id": 78
+        "id": 2
     },
     {
         "name": "jhon",
         "roles": ["role4", "role7"],
-        "id": 56
+        "id": 3
     }
 ]
 roles = [
@@ -88,14 +88,18 @@ roles = [
 def get_users():
     return {"users": users}
 
+counter = 4
 
 @app.post("/users")
 @cross_origin()
 def create_user():
+    global counter
     request_data = request.get_json()
-    new_user = {"name": request_data["name"], "roles": request_data["roles"]}
+    new_user = {"id": counter, "name": request_data["name"], "roles": request_data["roles"]}
     users.append(new_user)
-    return new_user, 201
+    counter += 1
+    return {"id": new_user["id"], "name": new_user["name"], "roles": new_user["roles"]}, 201
+
 
 
 
