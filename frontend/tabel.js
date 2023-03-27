@@ -1,13 +1,28 @@
-$.ajax({
-  type: 'get',
-  url: 'http://127.0.0.1:5000/users',
-  contentType: "application/json",
-  success: function(response) {
-    // Handle the response from Flask backend
-    console.log(response);
-  }
-});
-
+$.fn.loadusers = function () {
+  $.ajax({
+    type: "get",
+    url: "http://127.0.0.1:5000/users",
+    contentType: "application/json",
+    success: function (response) {
+      // Handle the response from Flask backend
+      users = response.users;
+      tbody = $("#userTableBody");
+      users.forEach((user) => {
+        newRow = $("<tr>", { id: user.id }); // Create a new row with the new id
+        newRow.append($("<td>", { class: "name", text: user.name }));
+        newRow.append($("<td>", { class: "role", text: user.roles }));
+        newRow.append(
+          $("<td>").append($("<button>", { class: "editBtn", text: "✎" }))
+        );
+        newRow.append(
+          $("<td>").append($("<button>", { class: "deleteBtn", text: "🗑" }))
+        );
+        tbody.append(newRow);
+      });
+      console.log(response);
+    },
+  });
+};
 
 
 
@@ -25,16 +40,29 @@ home.addEventListener("click", function () {
 
 //the create buttons
 $(document).ready(function () {
+
+
+
+
+
+
   //make roles green or red
   $(".roleBtn").click(function (event) {
     event.preventDefault();
     $(this).toggleClass("green");
   });
 });
+
+
+
+
+
 $(document).ready(function () {
   $(".createBtn").click(function (event) {
     event.preventDefault();
     $(".roleBtn").removeClass("green");
+
+    
 
     // Set the name in the edit modal empty
     $("#username").val("");
