@@ -1,108 +1,78 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-	<title>User Management System</title>
-	<link rel="stylesheet" type="text/css" href="tabel.css">
+  <title>User Management System</title>
+  <link rel="stylesheet" type="text/css" href="tabel.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 </head>
+
 <body>
-	<header>
-		<nav>
-			<button id = home  class = homebtn><strong><h1>User Management System</h1></strong></button>
-            <button id="createBtn" class = createBtn><strong>Create</strong></button>
-            
-            <form id="createUserForm">
+  <header>
+    <nav>
+      <button id=home class=homebtn><strong>
+          <h1>User Management System</h1>
+        </strong></button>
+      <button id="createBtn" class=createBtn><strong>Create</strong></button>
 
-            <div id="myModal" class="modal">
-                <div class="modal-content">
-                  <span class="close">&times;</span>
-                  <form>
-                    <label for="username">Username:</label>
-                    <input type="text" id="username" name="username"><br><br>
-                    <label for="roles">Roles:</label>
-                    <div id="roles">
-                      <!--roles from data base  -->
-                    </div>
-                    <br><br>
-                    <button type="submit" class="saveBtn">Save</button>
-                  </form>
-                </div>
+      <form id="createUserForm">
+
+        <div id="myModal" class="modal">
+          <div class="modal-content">
+            <span class="close">&times;</span>
+            <form>
+              <label for="username">Username:</label>
+              <input type="text" id="username" name="username"><br><br>
+              <label for="roles">Roles:</label>
+              <div id="roles">
+                <!--roles from data base  -->
               </div>
-		</nav>
-	</header>
-
-    <main>
-      
-      <table>
-        <thead>
-          <tr>
-            <th>User</th>
-            <th>Roles</th>
-            <th>Edit</th>
-            <th>Delete</th>
-          </tr>
-        </thead>
-        <tbody id="userTableBody">
-          <tr id="27">
-            <td class="name">John Doe</td>
-            <td class="role">Role 1</td>
-            <td><button class="editBtn" >&#x270E;</button></td>
-            <td><button class="deleteBtn">&#x1F5D1;</button></td>
-          </tr>
-          <tr id="28">
-            <td class="name">Jane Smith</td>
-            <td class="role">Role 2</td>
-            <td><button class="editBtn" >&#x270E;</button></td>
-            <td><button class="deleteBtn">&#x1F5D1;</button></td>
-          </tr>
-          <tr id="29">
-            <td class="name">Bob Johnson</td>
-            <td class="role">Role 3</td>
-            <td><button class="editBtn" >&#x270E;</button></td>
-            <td><button class="deleteBtn">&#x1F5D1;</button></td>
-          </tr> 
-        </tbody>
-      </table>
-      
-      
-      <div id="editModal" class="modal">
-        <div class="modal-content">
-          <span class="close">&times;</span>
-          <h2>Edit User</h2>
-          <label for="editName">Name:</label>
-          <input type="text" id="editName" name="editName"><br><br>
-          <label>Roles:</label><br>
-          <button class="editRoleBtn" data-value="Role 1">Role 1</button>
-          <button class="editRoleBtn" data-value="Role 2">Role 2</button>
-          <button class="editRoleBtn" data-value="Role 3">Role 3</button>
-          <button class="editRoleBtn" data-value="Role 4">Role 4</button>
-          <button class="editRoleBtn" data-value="Role 5">Role 5</button>
-          <button class="editRoleBtn" data-value="Role 6">Role 6</button>
-          <button class="editRoleBtn" data-value="Role 7">Role 7</button>
-          <button class="editRoleBtn" data-value="Role 8">Role 8</button>
-          <button class="editRoleBtn" data-value="Role 9">Role 9</button>
-          <button class="editRoleBtn" data-value="Role 10">Role 10</button>
-          <button class="editRoleBtn" data-value="Role 11">Role 11</button>
-          <button class="editRoleBtn" data-value="Role 12">Role 12</button>
-          <button class="editRoleBtn" data-value="Role 13">Role 13</button>
-          <button class="editRoleBtn" data-value="Role 14">Role 14</button>
-          <button class="editRoleBtn" data-value="Role 15">Role 15</button>
-          <button class="editRoleBtn" data-value="Role 16">Role 16</button>
-          <button class="editRoleBtn" data-value="Role 17">Role 17</button>
-          <button class="editRoleBtn" data-value="Role 18">Role 18</button>
-          <button class="editRoleBtn" data-value="Role 19">Role 19</button>
-          <button class="editRoleBtn" data-value="Role 20">Role 20</button>
-          <br><br>
-          <button class="saveEditBtn">Save</button>
+              <br><br>
+              <button type="submit" class="saveBtn">Save</button>
+            </form>
+          </div>
         </div>
-      </div>
-      
-      
-      
-</main>
-        
-    
+    </nav>
+  </header>
 
-	<script src="tabel.js"></script>
+  <main>
+
+    <table>
+      <thead>
+        <tr>
+          <th>User</th>
+          <th>Roles</th>
+          <th>Edit</th>
+          <th>Delete</th>
+        </tr>
+      </thead>
+      <tbody id="userTableBody">
+      </tbody>
+    </table>
+
+
+    <div id="editModal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Edit User</h2>
+        <label for="editName">Name:</label>
+        <input type="text" id="editName" name="editName"><br><br>
+        <label>Roles:</label><br>
+        <div id="editroles">
+
+        </div>
+        <br><br>
+        <button class="saveEditBtn">Save</button>
+      </div>
+    </div>
+
+
+
+  </main>
+
+
+
+  <script src="tabel.js"></script>
 </body>
+
 </html>

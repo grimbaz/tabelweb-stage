@@ -24,26 +24,48 @@ $.fn.loadusers = function () {
   });
 };
 
-
-
-$.fn.rolesBtn = function(){
+$.fn.rolesBtn = function () {
   $.ajax({
     type: "get",
     url: "http://127.0.0.1:5000/roles",
     contentType: "application/json",
-    success: function(response){
+    success: function (response) {
       roles = response.roles;
       roles.forEach((role) => {
-        $("#roles").append($("<button>", {class: "roleBtn", data_value: role.name, text: role.name}));
+        $("#roles").append(
+          $("<button>", {
+            class: "roleBtn",
+            data_value: role.name,
+            text: role.name,
+          })
+        );
       });
-      console.log(response)
+      console.log(response);
+    },
+  });
+};
+$.fn.editrolesBtn = function () {
+  $.ajax({
+    type: "get",
+    url: "http://127.0.0.1:5000/roles",
+    contentType: "application/json",
+    success: function (response) {
+      roles = response.roles;
+      roles.forEach((role) => {
+        $("#editroles").append(
+          $("<button>", {
+            class: "editRoleBtn",
+            data_value: role.name,
+            text: role.name,
+          })
+        );
+      });
+      console.log(response);
     },
   });
 };
 
-$("#roles").rolesBtn()
-
-
+$(document).loadusers();
 // home button
 var home = document.getElementById("home");
 
@@ -58,33 +80,20 @@ home.addEventListener("click", function () {
 
 //the create buttons
 $(document).ready(function () {
-
-
-
-
-//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  $(document).rolesBtn();
 
   //make roles green or red
-  $(".roleBtn").click(function (event) {
+  $("#roles").on("click", ".roleBtn", function (event) {
     event.preventDefault();
     $(this).toggleClass("green");
   });
 });
 
-
-
-
-
 $(document).ready(function () {
   $(".createBtn").click(function (event) {
     event.preventDefault();
 
-
-
-    //!!!!!!!!!!!!!!!!!!!!!
     $(".roleBtn").removeClass("green");
-
-
 
     // Set the name in the edit modal empty
     $("#username").val("");
@@ -141,11 +150,13 @@ $("#userTableBody").on("click", ".deleteBtn", function () {
 
 //the edit buttons
 $(document).ready(function () {
-  $(".editRoleBtn").click(function (event) {
+  $(document).editrolesBtn();
+  $("#editroles").on("click", ".editRoleBtn", function (event) {
     event.preventDefault();
     $(this).toggleClass("green");
   });
-  $(".editBtn").click(function (event) {
+
+  $("#userTableBody").on("click", ".editBtn", function (event) {
     event.preventDefault();
     $(".editRoleBtn").removeClass("green");
     // Get the index of the row being edited
@@ -161,9 +172,12 @@ $(document).ready(function () {
 
     // Get the roles from the corresponding row
     var roles = $("#" + rowId + " .role").text();
+    console.log(roles)
     // Loop through the roles and add the "green" class to the relevant buttons
     $(".editRoleBtn").each(function () {
-      var role = $(this).data("value");
+      var role = $(this).text();
+      console.log(this)
+      console.log(role)
       if (roles.indexOf(role) !== -1) {
         $(this).addClass("green");
       }
@@ -182,7 +196,11 @@ $(document).ready(function () {
 
       // Get the new name from the edit modal
       var newName = $("#editName").val();
-      var newroles = $(".green").text();
+      var newroles = $(".green").map(function() {
+        return $(this).text();
+      }).get().join(", ");
+      
+      
       // Update the corresponding row with the new name
       $("#" + rowId + " .name").text(newName);
       $("#" + rowId + " .role").text(newroles);
