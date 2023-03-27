@@ -143,9 +143,11 @@ def update_roles(name):
     for index, user in enumerate(users):
         # Replace user entry in users
         if user["name"] == name:
-            users[index] = request_data
+            user["name"] = request_data["name"]
+            user["roles"] = request_data["roles"]
             return {"message": "user changed"}
     return {"message": "user not found"}, 404
+
 
 
 @app.get("/roles")

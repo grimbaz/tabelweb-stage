@@ -65,7 +65,7 @@ $.fn.editrolesBtn = function () {
   });
 };
 
-$(document).loadusers();
+
 // home button
 var home = document.getElementById("home");
 
@@ -80,6 +80,7 @@ home.addEventListener("click", function () {
 
 //the create buttons
 $(document).ready(function () {
+  $(document).loadusers();
   $(document).rolesBtn();
 
   //make roles green or red
@@ -111,7 +112,8 @@ $(".saveBtn").click(function (event) {
 
   // Get the new name from the edit modal
   var Name = $("#username").val();
-  var roles = $(".green").text();
+  var roles = $(".green").text().split(",");
+
   // Update the corresponding row with the new name
   var lastId = $("#userTableBody tr:last").attr("id");
   console.log(lastId); // Set to the last assigned id
@@ -171,14 +173,14 @@ $(document).ready(function () {
     $("#editModal").css("display", "block");
 
     // Get the roles from the corresponding row
-    var roles = $("#" + rowId + " .role").text();
+    var roles = $("#" + rowId + " .role").text().split(',');
+    console.log("roles:")
     console.log(roles)
     // Loop through the roles and add the "green" class to the relevant buttons
     $(".editRoleBtn").each(function () {
       var role = $(this).text();
-      console.log(this)
-      console.log(role)
       if (roles.indexOf(role) !== -1) {
+        console.log(role)
         $(this).addClass("green");
       }
     });
@@ -196,14 +198,27 @@ $(document).ready(function () {
 
       // Get the new name from the edit modal
       var newName = $("#editName").val();
-      var newroles = $(".green").map(function() {
-        return $(this).text();
-      }).get().join(", ");
-      
-      
+      var newroles = $(".green")
+        .map(function () {
+          return $(this).text();
+        })
+        .get();
+
       // Update the corresponding row with the new name
-      $("#" + rowId + " .name").text(newName);
-      $("#" + rowId + " .role").text(newroles);
+      $.ajax({
+        url: "http://127.0.0.1:5000/users/" + name,
+        type: "PUT",
+        data: JSON.stringify({
+          name: newName,
+          roles: newroles,
+        }),
+        contentType: "application/json",
+        success: function (response) {
+            $("#" + rowId + " .name").text(newName);
+            $("#" + rowId + " .role").text(newroles);
+        },
+      });
+
       // Hide the edit modal
       $("#editModal").css("display", "none");
     });
