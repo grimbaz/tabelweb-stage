@@ -26,6 +26,24 @@ $.fn.loadusers = function () {
 
 
 
+$.fn.rolesBtn = function(){
+  $.ajax({
+    type: "get",
+    url: "http://127.0.0.1:5000/roles",
+    contentType: "application/json",
+    success: function(response){
+      roles = response.roles;
+      roles.forEach((role) => {
+        $("#roles").append($("<button>", {class: "roleBtn", data_value: role.name, text: role.name}));
+      });
+      console.log(response)
+    },
+  });
+};
+
+$("#roles").rolesBtn()
+
+
 // home button
 var home = document.getElementById("home");
 
@@ -44,7 +62,7 @@ $(document).ready(function () {
 
 
 
-
+//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
   //make roles green or red
   $(".roleBtn").click(function (event) {
@@ -60,9 +78,13 @@ $(document).ready(function () {
 $(document).ready(function () {
   $(".createBtn").click(function (event) {
     event.preventDefault();
+
+
+
+    //!!!!!!!!!!!!!!!!!!!!!
     $(".roleBtn").removeClass("green");
 
-    
+
 
     // Set the name in the edit modal empty
     $("#username").val("");
