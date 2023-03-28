@@ -141,9 +141,18 @@ $(".saveBtn").click(function (event) {
 $("#userTableBody").on("click", ".deleteBtn", function () {
   // Get the parent row of the clicked button
   const row = $(this).closest("tr");
+  const id = row.attr("id");
+  $.ajax({
+    url: "http://127.0.0.1:5000/users/" + id,
+    type: "DELETE",
+    success: function () {
+      row.remove();
+    },
+  });
+
 
   // Remove the row from the table
-  row.remove();
+
 });
 
 // end!!!!! of delete buttons
