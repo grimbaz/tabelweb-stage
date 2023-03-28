@@ -92,10 +92,12 @@ def get_users():
 @app.post("/users")
 @cross_origin()
 def create_user():
+    global counter
     request_data = request.get_json()
-    new_user = {"name": request_data["name"], "roles": []}
+    new_user = {"id": counter, "name": request_data["name"], "roles": request_data["roles"]}
     users.append(new_user)
-    return new_user, 201
+    counter += 1
+    return {"id": new_user["id"], "name": new_user["name"], "roles": new_user["roles"]}, 201
 
 
 @app.post("/users/<string:name>/role")
