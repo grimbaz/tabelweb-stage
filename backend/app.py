@@ -88,7 +88,7 @@ roles = [
 def get_users():
     return {"users": users}
 
-
+counter = 4
 @app.post("/users")
 @cross_origin()
 def create_user():

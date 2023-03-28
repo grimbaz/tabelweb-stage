@@ -124,7 +124,7 @@ $(".saveBtn").click(function (event) {
       roles: create_roles,
     }),
     contentType: "application/json",
-    success: function (data) {
+    success: function () {
       // Hide the edit modal
       $("#myModal").css("display", "none");
     },
