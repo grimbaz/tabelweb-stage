@@ -6,17 +6,17 @@ users = [
     {
         "name": "grim baeke",
         "roles": ["role1", "role2"],
-        "id": 34
+        "id": 1
     },
     {
         "name": "jeff steve",
         "roles": ["role2", "role5"],
-        "id": 78
+        "id": 2
     },
     {
         "name": "john",
         "roles": ["role4", "role7"],
-        "id": 56
+        "id": 3
     }
 ]
 roles = [
@@ -112,21 +112,21 @@ def add_roles(name):
     return {"message": "user not found"}, 404
 
 
-@app.get("/users/<string:name>")
+@app.get("/users/<int:rowId>")
 @cross_origin()
-def get_user(name):
+def get_user(rowId):
     for user in users:
-        if user["name"] == name:
+        if user["id"] == rowId:
             return user
     return {"message": "user not found"}
 
 
-@app.delete("/users/<string:name>")
+@app.delete("/users/<int:id>")
 @cross_origin()
-def del_users(name):
+def del_user(id):
     del_user = None
     for user in users:
-        if user["name"] == name:
+        if user["id"] == id:
             del_user = user
             break
     if del_user is None:
@@ -134,6 +134,7 @@ def del_users(name):
     else:
         users.remove(del_user)
         return {"message": "user removed"}, 201
+
 
 
 @app.put('/users/<string:name>')

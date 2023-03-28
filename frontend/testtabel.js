@@ -65,7 +65,6 @@ $.fn.editrolesBtn = function () {
   });
 };
 
-
 // home button
 var home = document.getElementById("home");
 
@@ -111,10 +110,10 @@ $(".saveBtn").click(function (event) {
   // Get the new name from the edit modal
   var Name = $("#username").val();
   var create_roles = $(".green")
-  .map(function () {
-    return $(this).text();
-  })
-  .get();
+    .map(function () {
+      return $(this).text();
+    })
+    .get();
 
   $.ajax({
     url: "http://127.0.0.1:5000/users",
@@ -150,9 +149,7 @@ $("#userTableBody").on("click", ".deleteBtn", function () {
     },
   });
 
-
   // Remove the row from the table
-
 });
 
 // end!!!!! of delete buttons
@@ -167,68 +164,38 @@ $(document).ready(function () {
 
   $("#userTableBody").on("click", ".editBtn", function (event) {
     event.preventDefault();
-    $(".editRoleBtn").removeClass("green");
-    // Get the index of the row being edited
+    $(".roleBtn").removeClass("green");
     var rowId = $(this).closest("tr").attr("id");
+    
+      $.ajax({
+        type: "get",
+        url: "http://127.0.0.1:5000/users/"+rowId,
+        contentType: "application/json",
+        success: function (response) {
+          console.log(response);
+        },
+      });
+    
 
-    // Get the name from the corresponding row
-    var name = $("#" + rowId + " .name").text();
-    // Set the name in the edit modal
     $("#editName").val(name);
 
     // Show the edit modal
-    $("#editModal").css("display", "block");
-
-    // Get the roles from the corresponding row
-    var roles = $("#" + rowId + " .role").text().split(',');
-    console.log("roles:")
-    console.log(roles)
-    // Loop through the roles and add the "green" class to the relevant buttons
-    $(".editRoleBtn").each(function () {
-      var role = $(this).text();
-      if (roles.indexOf(role) !== -1) {
-        console.log(role)
-        $(this).addClass("green");
-      }
-    });
-
-    // Remove the click event handler for the Save button
-    $(".saveEditBtn").off("click");
-    //make roles green or red
+    $("#myModal").css("display", "block");
 
     $(".close").click(function () {
-      $("#editModal").css("display", "none");
+      $("#myModal").css("display", "none");
     });
-    // Save the edited name and roles when the Save button is clicked
-    $(".saveEditBtn").click(function (event) {
-      event.preventDefault();
-
-      // Get the new name from the edit modal
-      var newName = $("#editName").val();
-      var newroles = $(".green")
-        .map(function () {
-          return $(this).text();
-        })
-        .get();
-
-      // Update the corresponding row with the new name
-      $.ajax({
-        url: "http://127.0.0.1:5000/users/" + name,
-        type: "PUT",
-        data: JSON.stringify({
-          name: newName,
-          roles: newroles,
-        }),
-        contentType: "application/json",
-        success: function (response) {
-            $("#" + rowId + " .name").text(newName);
-            $("#" + rowId + " .role").text(newroles);
-        },
-      });
-
-      // Hide the edit modal
-      $("#editModal").css("display", "none");
-    });
+  });
+  //save button setup!
+  // Remove the click event handler for the Save button
+  $(".saveEditBtn").off("click");
+  //make roles green or red
+  $(".close").click(function () {
+    $("#editModal").css("display", "none");
+  });
+  // Save the edited name and roles when the Save button is clicked
+  $(".saveEditBtn").click(function (event) {
+    event.preventDefault();
   });
 });
 
