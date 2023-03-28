@@ -14,7 +14,7 @@ users = [
         "id": 78
     },
     {
-        "name": "jhon",
+        "name": "john",
         "roles": ["role4", "role7"],
         "id": 56
     }
