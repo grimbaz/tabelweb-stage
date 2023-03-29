@@ -171,10 +171,10 @@ $(document).ready(function () {
       url: "http://127.0.0.1:5000/users/" + rowId,
       contentType: "application/json",
       success: function (response) {
-        
         var user = response;
         const new_roles = user.roles;
         $("#editName").val(user.name);
+
         // $(user.roles).each(function () {
         //   var role = this;
         //   $(".editRoleBtn").each(function () {
@@ -183,20 +183,19 @@ $(document).ready(function () {
         //       $(this).addClass("green");
         //     }
         //   });
-        
-        
+
         console.log("new_roles", new_roles);
 
         const all_roles = [];
         $(".editRoleBtn").each(function () {
           var eachrole = $(this).text();
-          /*
-            console.log("eachrole", eachrole)
-            if (eachrole.indexOf(new_roles) !== -1) {
-              $(this).addClass("green");
-            }
-            */
-          all_roles.push(eachrole)
+
+          // console.log("eachrole", eachrole)
+          // if (eachrole.indexOf(new_roles) !== -1) {
+          //   $(this).addClass("green");
+          // }
+
+          all_roles.push(eachrole);
         });
         console.log("all_roles", all_roles);
 
@@ -204,9 +203,7 @@ $(document).ready(function () {
           if (all_roles.includes(role)) {
             $(".editRoleBtn[data_value='" + role + "']").addClass("green");
           }
-        })
-        
-
+        });
 
         $("#editroles").on("click", ".editRoleBtn", function (event) {
           event.preventDefault();
