@@ -18,13 +18,14 @@ $.fn.loadusers = function () {
           $("<td>").append($("<button>", { class: "deleteBtn", text: "🗑" }))
         );
         tbody.append(newRow);
+        //this all displays the users on the frontpage
       });
-      console.log(response);
     },
   });
 };
 
 $.fn.rolesBtn = function () {
+  //this function displays the roles buttons in de createmenu
   $.ajax({
     type: "get",
     url: "http://127.0.0.1:5000/roles",
@@ -40,11 +41,11 @@ $.fn.rolesBtn = function () {
           })
         );
       });
-      console.log(response);
     },
   });
 };
 $.fn.editrolesBtn = function () {
+  //this function displays the roles buttons in de editmenu
   $.ajax({
     type: "get",
     url: "http://127.0.0.1:5000/roles",
@@ -60,11 +61,9 @@ $.fn.editrolesBtn = function () {
           })
         );
       });
-      console.log(response);
     },
   });
 };
-
 
 // home button
 var home = document.getElementById("home");
@@ -76,24 +75,33 @@ home.addEventListener("click", function () {
 
   window.location.href = url;
 });
-// the end!!!!!!! of making the home
 
 //the create buttons
 $(document).ready(function () {
   $(document).loadusers();
   $(document).rolesBtn();
 
-  //make roles green or red
+  //toggle roles green or red
   $("#roles").on("click", ".roleBtn", function (event) {
     event.preventDefault();
     $(this).toggleClass("green");
   });
-});
+  var create_roles = [];
+  $("#roles").on("click", ".roleBtn", function (event) {
+    event.preventDefault();
+    var roleitem = $(this).text();
 
-$(document).ready(function () {
+    var index = create_roles.indexOf(roleitem);
+    if (index !== -1) {
+      create_roles.splice(index, 1);
+    } else {
+      create_roles.push(roleitem);
+      return create_roles;
+    }
+  });
   $(".createBtn").click(function (event) {
     event.preventDefault();
-
+    //sets all green buttons to red
     $(".roleBtn").removeClass("green");
 
     // Set the name in the edit modal empty
@@ -102,57 +110,55 @@ $(document).ready(function () {
     // Show the edit modal
     $("#myModal").css("display", "block");
   });
+  // the close button for the modal
   $(".close").click(function () {
     $("#myModal").css("display", "none");
   });
+
+  // post the edited name and roles when the Save button is clicked
+  $(".saveBtn").click(function () {
+    // Get the new name from the edit modal
+    var Name = $("#username").val();
+    // posts the new users data to the backend
+    console.log("splice", create_roles);
+    $.ajax({
+      url: "http://127.0.0.1:5000/users",
+      type: "POST",
+      data: JSON.stringify({
+        name: Name,
+        roles: create_roles,
+      }),
+      contentType: "application/json",
+      success: function () {
+        //succes loads users so if 2 people are working at the same time all the users will be complete
+        $(document).loadusers();
+        // Hide the edit modal
+        $("#myModal").css("display", "none");
+      },
+    });
+  });
 });
-// Save the edited name and roles when the Save button is clicked
-$(".saveBtn").click(function (event) {
-  event.preventDefault();
-
-  // Get the new name from the edit modal
-  var Name = $("#username").val();
-  var roles = $(".green").text().split(",");
-
-  // Update the corresponding row with the new name
-  var lastId = $("#userTableBody tr:last").attr("id");
-  console.log(lastId); // Set to the last assigned id
-
-  // When adding a new row:
-  lastId++; // Increment the id counter
-  newRow = $("<tr>", { id: lastId }); // Create a new row with the new id
-  // Add the row's cells
-  newRow.append($("<td>", { class: "name", text: Name }));
-  newRow.append($("<td>", { class: "role", text: roles }));
-  newRow.append(
-    $("<td>").append($("<button>", { class: "editBtn", text: "✎" }))
-  );
-  newRow.append(
-    $("<td>").append($("<button>", { class: "deleteBtn", text: "🗑" }))
-  );
-  $("#userTableBody").append(newRow); // Add the new row to the table
-
-  // Hide the edit modal
-  $("#myModal").css("display", "none");
-});
-
-//end!!!!! of create button
-
-//these are the delete buttons
+//the delete buttons
 // Get the table body element
 $("#userTableBody").on("click", ".deleteBtn", function () {
   // Get the parent row of the clicked button
   const row = $(this).closest("tr");
+  const id = row.attr("id");
+  $.ajax({
+    url: "http://127.0.0.1:5000/users/" + id,
+    type: "DELETE",
+    success: function () {
+      row.remove();
+    },
+  });
 
   // Remove the row from the table
-  row.remove();
 });
-
-// end!!!!! of delete buttons
 
 //the edit buttons
 $(document).ready(function () {
   $(document).editrolesBtn();
+  $;
   $("#editroles").on("click", ".editRoleBtn", function (event) {
     event.preventDefault();
     $(this).toggleClass("green");
@@ -161,66 +167,74 @@ $(document).ready(function () {
   $("#userTableBody").on("click", ".editBtn", function (event) {
     event.preventDefault();
     $(".editRoleBtn").removeClass("green");
-    // Get the index of the row being edited
     var rowId = $(this).closest("tr").attr("id");
 
-    // Get the name from the corresponding row
-    var name = $("#" + rowId + " .name").text();
-    // Set the name in the edit modal
-    $("#editName").val(name);
+    $.ajax({
+      type: "get",
+      url: "http://127.0.0.1:5000/users/" + rowId,
+      contentType: "application/json",
+      success: function (response) {
+        var user = response;
+        const new_roles = user.roles;
+        $("#editName").val(user.name);
 
-    // Show the edit modal
-    $("#editModal").css("display", "block");
+        const all_roles = [];
+        $(".editRoleBtn").each(function () {
+          var eachrole = $(this).text();
 
-    // Get the roles from the corresponding row
-    var roles = $("#" + rowId + " .role").text().split(',');
-    console.log("roles:")
-    console.log(roles)
-    // Loop through the roles and add the "green" class to the relevant buttons
-    $(".editRoleBtn").each(function () {
-      var role = $(this).text();
-      if (roles.indexOf(role) !== -1) {
-        console.log(role)
-        $(this).addClass("green");
-      }
-    });
+          all_roles.push(eachrole);
+        });
 
-    // Remove the click event handler for the Save button
-    $(".saveEditBtn").off("click");
-    //make roles green or red
+        new_roles.forEach((role) => {
+          if (all_roles.includes(role)) {
+            $(".editRoleBtn[data_value='" + role + "']").addClass("green");
+          }
+        });
 
-    $(".close").click(function () {
-      $("#editModal").css("display", "none");
-    });
-    // Save the edited name and roles when the Save button is clicked
-    $(".saveEditBtn").click(function (event) {
-      event.preventDefault();
+        $("#editroles").on("click", ".editRoleBtn", function (event) {
+          event.preventDefault();
+          var roleitem = $(this).text();
+          var index = new_roles.indexOf(roleitem);
+          if (index !== -1) {
+            new_roles.splice(index, 1);
+          } else {
+            new_roles.push(roleitem);
+          }
+        });
 
-      // Get the new name from the edit modal
-      var newName = $("#editName").val();
-      var newroles = $(".green")
-        .map(function () {
-          return $(this).text();
-        })
-        .get();
+        // Show the edit modal
+        $("#editModal").css("display", "block");
 
-      // Update the corresponding row with the new name
-      $.ajax({
-        url: "http://127.0.0.1:5000/users/" + name,
-        type: "PUT",
-        data: JSON.stringify({
-          name: newName,
-          roles: newroles,
-        }),
-        contentType: "application/json",
-        success: function (response) {
-            $("#" + rowId + " .name").text(newName);
-            $("#" + rowId + " .role").text(newroles);
-        },
-      });
+        $(".close").click(function () {
+          $("#editModal").css("display", "none");
+        });
 
-      // Hide the edit modal
-      $("#editModal").css("display", "none");
+        $(".saveEditBtn").off("click");
+
+        $(".close").click(function () {
+          $("#editModal").css("display", "none");
+        });
+        // Save the edited name and roles when the Save button is clicked
+        $(".saveEditBtn").click(function () {
+          var new_username = $("#editName").val();
+
+          var new_userroles = new_roles;
+          $.ajax({
+            url: "http://127.0.0.1:5000/users/" + rowId,
+            type: "put",
+            data: JSON.stringify({
+              name: new_username,
+              roles: new_userroles,
+            }),
+            contentType: "application/json",
+            success: function () {
+              $("#userTableBody tr").remove();
+              $(document).loadusers();
+              $("#editModal").css("display", "none");
+            },
+          });
+        });
+      },
     });
   });
 });
