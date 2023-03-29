@@ -171,6 +171,7 @@ $(document).ready(function () {
       url: "http://127.0.0.1:5000/users/" + rowId,
       contentType: "application/json",
       success: function (response) {
+        /*
         var user = response;
         const new_roles = user.roles;
         $("#editName").val(user.name);
@@ -182,7 +183,30 @@ $(document).ready(function () {
               $(this).addClass("green");
             }
           });
+          */
+        const new_roles = response.roles;
+        console.log("new_roles", new_roles);
+
+        const all_roles = [];
+        $(".editRoleBtn").each(function () {
+          var eachrole = $(this).text();
+          /*
+            console.log("eachrole", eachrole)
+            if (eachrole.indexOf(new_roles) !== -1) {
+              $(this).addClass("green");
+            }
+            */
+          all_roles.push(eachrole)
         });
+        console.log("all_roles", all_roles);
+
+        new_roles.forEach((role) => {
+          if (all_roles.includes(role)) {
+            $(".editRoleBtn[data_value='" + role + "']").addClass("green");
+          }
+        })
+        
+
 
         $("#editroles").on("click", ".editRoleBtn", function (event) {
           event.preventDefault();
@@ -221,7 +245,7 @@ $(document).ready(function () {
             }),
             contentType: "application/json",
             success: function () {
-              $("#userTableBody tr").remove()
+              $("#userTableBody tr").remove();
               $(document).loadusers();
               $("#editModal").css("display", "none");
             },
@@ -229,9 +253,7 @@ $(document).ready(function () {
         });
       },
     });
-    
   });
-  
 });
 
 //end!!!!!!!!! of the edit buttons
