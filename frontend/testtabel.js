@@ -171,20 +171,20 @@ $(document).ready(function () {
       url: "http://127.0.0.1:5000/users/" + rowId,
       contentType: "application/json",
       success: function (response) {
-        /*
+        
         var user = response;
         const new_roles = user.roles;
         $("#editName").val(user.name);
-        $(user.roles).each(function () {
-          var role = this;
-          $(".editRoleBtn").each(function () {
-            var eachrole = $(this).text();
-            if (eachrole.indexOf(role) !== -1) {
-              $(this).addClass("green");
-            }
-          });
-          */
-        const new_roles = response.roles;
+        // $(user.roles).each(function () {
+        //   var role = this;
+        //   $(".editRoleBtn").each(function () {
+        //     var eachrole = $(this).text();
+        //     if (eachrole.indexOf(role) !== -1) {
+        //       $(this).addClass("green");
+        //     }
+        //   });
+        
+        
         console.log("new_roles", new_roles);
 
         const all_roles = [];
