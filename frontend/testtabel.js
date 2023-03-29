@@ -19,7 +19,6 @@ $.fn.loadusers = function () {
         );
         tbody.append(newRow);
       });
-      console.log(response);
     },
   });
 };
@@ -40,7 +39,6 @@ $.fn.rolesBtn = function () {
           })
         );
       });
-      console.log(response);
     },
   });
 };
@@ -60,7 +58,6 @@ $.fn.editrolesBtn = function () {
           })
         );
       });
-      console.log(response);
     },
   });
 };
@@ -124,6 +121,7 @@ $(".saveBtn").click(function (event) {
     }),
     contentType: "application/json",
     success: function () {
+      $(document).loadusers();
       // Hide the edit modal
       $("#myModal").css("display", "none");
     },
@@ -157,6 +155,7 @@ $("#userTableBody").on("click", ".deleteBtn", function () {
 //the edit buttons
 $(document).ready(function () {
   $(document).editrolesBtn();
+  $;
   $("#editroles").on("click", ".editRoleBtn", function (event) {
     event.preventDefault();
     $(this).toggleClass("green");
@@ -164,39 +163,75 @@ $(document).ready(function () {
 
   $("#userTableBody").on("click", ".editBtn", function (event) {
     event.preventDefault();
-    $(".roleBtn").removeClass("green");
+    $(".editRoleBtn").removeClass("green");
     var rowId = $(this).closest("tr").attr("id");
-    
-      $.ajax({
-        type: "get",
-        url: "http://127.0.0.1:5000/users/"+rowId,
-        contentType: "application/json",
-        success: function (response) {
-          console.log(response);
-        },
-      });
-    
 
-    $("#editName").val(name);
+    $.ajax({
+      type: "get",
+      url: "http://127.0.0.1:5000/users/" + rowId,
+      contentType: "application/json",
+      success: function (response) {
+        var user = response;
+        const new_roles = user.roles;
+        $("#editName").val(user.name);
+        $(user.roles).each(function () {
+          var role = this;
+          $(".editRoleBtn").each(function () {
+            var eachrole = $(this).text();
+            if (eachrole.indexOf(role) !== -1) {
+              $(this).addClass("green");
+            }
+          });
+        });
 
-    // Show the edit modal
-    $("#myModal").css("display", "block");
+        $("#editroles").on("click", ".editRoleBtn", function (event) {
+          event.preventDefault();
+          var roleitem = $(this).text();
+          var index = new_roles.indexOf(roleitem);
+          if (index !== -1) {
+            new_roles.splice(index, 1);
+          } else {
+            new_roles.push(roleitem);
+          }
+        });
 
-    $(".close").click(function () {
-      $("#myModal").css("display", "none");
+        // Show the edit modal
+        $("#editModal").css("display", "block");
+
+        $(".close").click(function () {
+          $("#editModal").css("display", "none");
+        });
+
+        $(".saveEditBtn").off("click");
+
+        $(".close").click(function () {
+          $("#editModal").css("display", "none");
+        });
+        // Save the edited name and roles when the Save button is clicked
+        $(".saveEditBtn").click(function () {
+          var new_username = $("#editName").val();
+
+          var new_userroles = new_roles;
+          $.ajax({
+            url: "http://127.0.0.1:5000/users/" + rowId,
+            type: "put",
+            data: JSON.stringify({
+              name: new_username,
+              roles: new_userroles,
+            }),
+            contentType: "application/json",
+            success: function () {
+              $("#userTableBody tr").remove()
+              $(document).loadusers();
+              $("#editModal").css("display", "none");
+            },
+          });
+        });
+      },
     });
+    
   });
-  //save button setup!
-  // Remove the click event handler for the Save button
-  $(".saveEditBtn").off("click");
-  //make roles green or red
-  $(".close").click(function () {
-    $("#editModal").css("display", "none");
-  });
-  // Save the edited name and roles when the Save button is clicked
-  $(".saveEditBtn").click(function (event) {
-    event.preventDefault();
-  });
+  
 });
 
 //end!!!!!!!!! of the edit buttons

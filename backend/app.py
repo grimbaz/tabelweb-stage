@@ -88,13 +88,17 @@ roles = [
 def get_users():
     return {"users": users}
 
+
 counter = 4
+
+
 @app.post("/users")
 @cross_origin()
 def create_user():
     global counter
     request_data = request.get_json()
-    new_user = {"id": counter, "name": request_data["name"], "roles": request_data["roles"]}
+    new_user = {"id": counter,
+                "name": request_data["name"], "roles": request_data["roles"]}
     users.append(new_user)
     counter += 1
     return {"id": new_user["id"], "name": new_user["name"], "roles": new_user["roles"]}, 201
@@ -136,21 +140,19 @@ def del_user(id):
         return {"message": "user removed"}, 201
 
 
-
-@app.put('/users/<string:name>')
+@app.put("/users/<int:user_id>")
 @cross_origin()
-def update_roles(name):
+def update_roles(user_id):
     # Check if user exist.
     request_data = request.get_json()
     # enumerate(): looks in what place the user is en the index is the number that the user is placed in that list so we loop 3th user and the index is gonna be 3
-    for index, user in enumerate(users):
+    for user in users:
         # Replace user entry in users
-        if user["name"] == name:
+        if user["id"] == user_id:
             user["name"] = request_data["name"]
             user["roles"] = request_data["roles"]
             return {"message": "user changed"}
     return {"message": "user not found"}, 404
-
 
 
 @app.get("/roles")
