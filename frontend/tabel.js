@@ -5,7 +5,7 @@ $.fn.loadusers = function () {
     contentType: "application/json",
     success: function (response) {
       // Handle the response from Flask backend
-      users = response.users;
+      users = response;
       tbody = $("#userTableBody");
       users.forEach((user) => {
         newRow = $("<tr>", { id: user.id }); // Create a new row with the new id
@@ -126,7 +126,7 @@ $(document).ready(function () {
       type: "POST",
       data: JSON.stringify({
         name: Name,
-        roles: create_roles,
+        roles: create_roles.join(","),
       }),
       contentType: "application/json",
       success: function () {
@@ -175,7 +175,8 @@ $(document).ready(function () {
       contentType: "application/json",
       success: function (response) {
         var user = response;
-        const new_roles = user.roles;
+        console.log(user)
+        const new_roles = user.roles.split(",");
         $("#editName").val(user.name);
 
         const all_roles = [];

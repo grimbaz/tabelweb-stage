@@ -1,24 +1,11 @@
-from flask import Flask, request
+from typing import Optional
+
+from sqlmodel import Field, Session, SQLModel, create_engine, select
+from flask import Flask, request, jsonify
 from flask_cors import cross_origin
 
 app = Flask(__name__)
-users = [
-    {
-        "name": "grim baeke",
-        "roles": ["role1", "role2"],
-        "id": 1
-    },
-    {
-        "name": "jeff steve",
-        "roles": ["role2", "role5"],
-        "id": 2
-    },
-    {
-        "name": "john",
-        "roles": ["role4", "role7"],
-        "id": 3
-    }
-]
+
 roles = [
     {
         "name": "role1"
@@ -83,76 +70,91 @@ roles = [
 ]
 
 
+class User(SQLModel, table=True):
+    id: Optional[int] = Field(default=None, primary_key=True)
+    name: str
+    roles: str
+
+
+engine = create_engine("sqlite:///database.db")
+
+
 @app.get("/users")
 @cross_origin()
 def get_users():
-    return {"users": users}
+    with Session(engine) as session:
+        select_statement = select(User).order_by(User.id)
+        users = session.execute(select_statement).all()
+        # TODO: find out why a tuple is returned
+        result = [
+            {
+                "id": user[0].id,
+                "name": user[0].name,
+                "roles": user[0].roles
+            } for user in users
+        ]
+        return jsonify(result)
 
 
-counter = 4
+@app.get("/users/<int:row_id>")
+@cross_origin()
+def get_user(row_id):
+    with Session(engine) as session:
+        select_statement = select(User).where(User.id == row_id)
+        user = session.execute(select_statement).first()
+        result = {
+            "id": user[0].id,
+            "name": user[0].name,
+            "roles": user[0].roles
+        }
+        return jsonify(result)
 
 
 @app.post("/users")
 @cross_origin()
 def create_user():
-    global counter
     request_data = request.get_json()
-    new_user = {"id": counter,
-                "name": request_data["name"], "roles": request_data["roles"]}
-    users.append(new_user)
-    counter += 1
-    return {"id": new_user["id"], "name": new_user["name"], "roles": new_user["roles"]}, 201
-
-
-@app.post("/users/<string:name>/role")
-@cross_origin()
-def add_roles(name):
-    request_data = request.get_json()
-    for user in users:
-        if user["name"] == name:
-            new_role = [request_data["roles"]]
-            user["roles"].append(new_role)
-            return new_role, 201
-    return {"message": "user not found"}, 404
-
-
-@app.get("/users/<int:rowId>")
-@cross_origin()
-def get_user(rowId):
-    for user in users:
-        if user["id"] == rowId:
-            return user
-    return {"message": "user not found"}
-
+    new_user = User(name=request_data["name"], roles=request_data["roles"])
+    with Session(engine) as session:
+        session.add(new_user)
+        session.commit()
+        return {"id": new_user.id, "name": new_user.name, "roles": new_user.roles}, 201
 
 @app.delete("/users/<int:id>")
 @cross_origin()
-def del_user(id):
-    del_user = None
-    for user in users:
-        if user["id"] == id:
-            del_user = user
-            break
-    if del_user is None:
-        return {"message": "user not found"}, 404
-    else:
-        users.remove(del_user)
-        return {"message": "user removed"}, 201
+def delete_user(id):
+    with Session(engine) as session:
+        user = session.get(User, id)
+        if user:
+            session.delete(user)
+            session.commit()
+            return {"message": "user removed"}, 201
+        else:
+            return {"message": "user not found"}, 404
+
 
 
 @app.put("/users/<int:user_id>")
 @cross_origin()
-def update_roles(user_id):
-    # Check if user exist.
+def update_user(user_id):
+    # Check if user exists.
     request_data = request.get_json()
-    # enumerate(): looks in what place the user is en the index is the number that the user is placed in that list so we loop 3th user and the index is gonna be 3
-    for user in users:
-        # Replace user entry in users
-        if user["id"] == user_id:
-            user["name"] = request_data["name"]
-            user["roles"] = request_data["roles"]
-            return {"message": "user changed"}
-    return {"message": "user not found"}, 404
+    with Session(engine) as session:
+        user = session.get(User, user_id)
+        if user is None:
+            return {"message": "user not found"}, 404
+
+
+        # Update user entry in database
+        user.name = request_data["name"]
+        user.roles = ",".join(request_data["roles"])
+        session.add(user)
+        session.commit()
+        return {"message": "user changed"}
+
+
+
+
 
 
 @app.get("/roles")
