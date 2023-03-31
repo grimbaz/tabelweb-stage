@@ -10,12 +10,14 @@ acces_password = "root"
 hash_password = generate_password_hash(acces_password)
 
 
-@app.post("/password/<string:password>")
+@app.post("/password")
 @cross_origin()
-def verify_password(password):
+def verify_password():
+    request_data = request.get_json()
+    password = request_data["password"]
     acces_password = "root"
     hash_password = generate_password_hash(acces_password)
-    return check_password_hash(hash_password, password)
+    return {"password_verified": check_password_hash(hash_password, password)}
 
 
 class User(SQLModel, table=True):

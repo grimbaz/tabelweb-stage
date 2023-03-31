@@ -64,7 +64,28 @@ $.fn.editrolesBtn = function () {
     },
   });
 };
-
+$.fn.password = function (password) {
+  $.ajax({
+    url: "http://127.0.0.1:5000/password",
+    type: "POST",
+    data: JSON.stringify({
+      password: password,
+    }),
+    contentType: "application/json",
+    success: function (response) {
+      console.log(response);
+      var verify = response.password_verified;
+      console.log(verify);
+      if (verify == true) {
+        $("#password").css("display", "none");
+        }
+        else {
+          console.log("wrong password");
+        }
+    },
+  
+  });
+};
 // home button
 var home = document.getElementById("home");
 
@@ -75,7 +96,16 @@ home.addEventListener("click", function () {
 
   window.location.href = url;
 });
-
+$(document).ready(function () {
+  $("#password_input").val("");
+  $("#password").css("display", "block");
+  $(".login").click(function (event) {
+    event.preventDefault();
+    var password = $("#password_input").val();
+    $(document).password(password);
+    
+  });
+})
 
 
 //the create buttons

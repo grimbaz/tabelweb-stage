@@ -245,4 +245,19 @@
   .editRoleBtn.green {
     background-color: green;
   }
-  
+  .login{
+    margin-left: 40%;
+    padding: 10px 20px;
+    background-color: #333;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  .login:hover {
+    background-color: #888;
+  }
+.password{
+  margin-left: 33%;
+}
