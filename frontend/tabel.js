@@ -31,13 +31,13 @@ $.fn.rolesBtn = function () {
     url: "http://127.0.0.1:5000/roles",
     contentType: "application/json",
     success: function (response) {
-      roles = response.roles;
+      roles = response;
       roles.forEach((role) => {
         $("#roles").append(
           $("<button>", {
             class: "roleBtn",
-            data_value: role.name,
-            text: role.name,
+            data_value: role,
+            text: role,
           })
         );
       });
@@ -51,13 +51,13 @@ $.fn.editrolesBtn = function () {
     url: "http://127.0.0.1:5000/roles",
     contentType: "application/json",
     success: function (response) {
-      roles = response.roles;
+      roles = response;
       roles.forEach((role) => {
         $("#editroles").append(
           $("<button>", {
             class: "editRoleBtn",
-            data_value: role.name,
-            text: role.name,
+            data_value: role,
+            text: role,
           })
         );
       });
@@ -120,7 +120,6 @@ $(document).ready(function () {
     // Get the new name from the edit modal
     var Name = $("#username").val();
     // posts the new users data to the backend
-    console.log("splice", create_roles);
     $.ajax({
       url: "http://127.0.0.1:5000/users",
       type: "POST",
@@ -175,7 +174,6 @@ $(document).ready(function () {
       contentType: "application/json",
       success: function (response) {
         var user = response;
-        console.log(user)
         const new_roles = user.roles.split(",");
         $("#editName").val(user.name);
 
@@ -218,7 +216,10 @@ $(document).ready(function () {
         // Save the edited name and roles when the Save button is clicked
         $(".saveEditBtn").click(function () {
           var new_username = $("#editName").val();
-
+          if ( new_roles[0] === "")
+          {
+            new_roles.splice(0, 1);
+          }
           var new_userroles = new_roles;
           $.ajax({
             url: "http://127.0.0.1:5000/users/" + rowId,
