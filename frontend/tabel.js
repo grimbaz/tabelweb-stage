@@ -76,6 +76,8 @@ home.addEventListener("click", function () {
   window.location.href = url;
 });
 
+
+
 //the create buttons
 $(document).ready(function () {
   $(document).loadusers();

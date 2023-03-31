@@ -2,9 +2,19 @@ from typing import Optional
 from sqlmodel import Field, Session, SQLModel, create_engine, select
 from flask import Flask, request, jsonify
 from flask_cors import cross_origin
-from flask_login import UserMixin, LoginManager, current_user, login_user, logout_user, login_required
-
+from werkzeug.security import generate_password_hash, check_password_hash
 app = Flask(__name__)
+
+acces_password = "root"
+hash_password = generate_password_hash(acces_password)
+
+
+@app.post("/password/<string:password>")
+@cross_origin()
+def verify_password(password):
+    acces_password = "root"
+    hash_password = generate_password_hash(acces_password)
+    return check_password_hash(hash_password, password)
 
 
 class User(SQLModel, table=True):
@@ -125,4 +135,3 @@ def del_role(name):
         session.delete(role)
         session.commit()
         return {"message": "role removed"}, 201
-
